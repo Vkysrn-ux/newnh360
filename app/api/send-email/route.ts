@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-type OrderItem = { name: string; quantity: number; price: number; };
+type OrderItem = { name: string; quantity: number; price: number };
+
 type OrderEmailData = {
   orderId: string;
   customerName: string;
@@ -16,75 +17,120 @@ type OrderEmailData = {
   orderDate: string;
 };
 
+type StatusUpdateData = {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  newStatus: string;
+  courierDetails?: {
+    name: string;
+    trackingId: string;
+    trackingUrl?: string;
+  };
+};
+
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { type, data } = await req.json() as { type: string; data: OrderEmailData };
-
-    if (type !== "order-notification") {
-      return NextResponse.json({ success: false, message: "Unsupported email type" }, { status: 400 });
-    }
+    const { type, data } = await req.json();
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "vkysrn3@gmail.com",          // Your Gmail address
-        pass: "kmasydxlgwcaelap",     // Your Gmail app password
+        user: "vkysrn3@gmail.com",
+        pass: "kmasydxlgwcaelap", // App password
       },
     });
 
-    // Optional: check login
     await transporter.verify();
 
-    // -- 1. Send to sales team --
-    const salesTo = "sales@britexcbe.com";
-    const salesCc = ["sudha@britexcbe.com", "karan@britexcbe.com"];
-    const salesSubject = `New Order from ${data.customerName} - Order #${data.orderId}`;
-    const salesHtml = `
-      <h2>New Order Received</h2>
-      <p><b>Order ID:</b> ${data.orderId}</p>
-      <p><b>Customer:</b> ${data.customerName} (${data.customerEmail})</p>
-      <p><b>Phone:</b> ${data.phone || "N/A"}</p>
-      <p><b>Address:</b> ${data.address}, ${data.city}, ${data.state}, ${data.pincode}</p>
-      <p><b>Date:</b> ${data.orderDate}</p>
-      <p><b>Total:</b> ₹${data.totalAmount}</p>
-      <ul>
-        ${data.items.map(item => `<li>${item.name} x ${item.quantity} @ ₹${item.price}</li>`).join("")}
-      </ul>
-    `;
-    await transporter.sendMail({
-      from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
-      to: salesTo,
-      cc: salesCc,
-      subject: salesSubject,
-      html: salesHtml,
-    });
+    // --- ORDER NOTIFICATION EMAIL ---
+    if (type === "order-notification") {
+      const orderData = data as OrderEmailData;
 
-    // -- 2. Send confirmation to customer --
-    const customerSubject = `Your Order with Cortez by BRITEX is Confirmed! (Order #${data.orderId})`;
-    const customerHtml = `
-      <h2>Thank you for your order!</h2>
-      <p>Dear ${data.customerName},</p>
-      <p>We have received your order <b>#${data.orderId}</b>. Below are your order details:</p>
-      <ul>
-        ${data.items.map(item => `<li>${item.name} x ${item.quantity} @ ₹${item.price}</li>`).join("")}
-      </ul>
-      <p><b>Total Paid:</b> ₹${data.totalAmount}</p>
-      <p><b>Shipping Address:</b> ${data.address}, ${data.city}, ${data.state}, ${data.pincode}</p>
-      <p>We will process your order and update you with tracking info soon.</p>
-      <p>For any queries, call +91-9894517926 or email support@britexcbe.com</p>
-      <br/>
-      <p>Thank you for shopping with Cortez by BRITEX!</p>
-    `;
-    await transporter.sendMail({
-      from: `"Cortez by BRITEX" <yourgmail@gmail.com>`,
-      to: data.customerEmail,         // <--- Customer's email
-      subject: customerSubject,
-      html: customerHtml,
-    });
+      const salesHtml = `
+        <h2>New Order Received</h2>
+        <p><b>Order ID:</b> ${orderData.orderId}</p>
+        <p><b>Customer:</b> ${orderData.customerName} (${orderData.customerEmail})</p>
+        <p><b>Phone:</b> ${orderData.phone || "N/A"}</p>
+        <p><b>Address:</b> ${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.pincode}</p>
+        <p><b>Date:</b> ${orderData.orderDate}</p>
+        <p><b>Total:</b> ₹${orderData.totalAmount}</p>
+        <ul>
+          ${orderData.items.map(item => `<li>${item.name} x ${item.quantity} @ ₹${item.price}</li>`).join("")}
+        </ul>
+      `;
 
-    return NextResponse.json({ success: true, message: "Both emails sent" });
+      await transporter.sendMail({
+        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
+        to: "sales@britexcbe.com",
+        cc: ["sudha@britexcbe.com", "karan@britexcbe.com"],
+        subject: `New Order from ${orderData.customerName} - Order #${orderData.orderId}`,
+        html: salesHtml,
+      });
+
+      const customerHtml = `
+        <h2>Thank you for your order!</h2>
+        <p>Dear ${orderData.customerName},</p>
+        <p>Your order <b>#${orderData.orderId}</b> is confirmed. Here are your order details:</p>
+        <ul>
+          ${orderData.items.map(item => `<li>${item.name} x ${item.quantity} @ ₹${item.price}</li>`).join("")}
+        </ul>
+        <p><b>Total Paid:</b> ₹${orderData.totalAmount}</p>
+        <p><b>Shipping Address:</b> ${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.pincode}</p>
+        <p>We’ll update you when your order ships.</p>
+        <p>Contact support@britexcbe.com or call +91-9894517926 if needed.</p>
+      `;
+
+      await transporter.sendMail({
+        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
+        to: orderData.customerEmail,
+        subject: `Your Order with Cortez by BRITEX is Confirmed! (Order #${orderData.orderId})`,
+        html: customerHtml,
+      });
+
+      return NextResponse.json({ success: true, message: "Order emails sent" });
+    }
+
+    // --- STATUS UPDATE EMAIL ---
+    else if (type === "status-update") {
+      const updateData = data as StatusUpdateData;
+
+      const { customerName, customerEmail, orderId, newStatus, courierDetails } = updateData;
+
+      let html = `
+        <h2>Order Status Update</h2>
+        <p>Dear ${customerName},</p>
+        <p>Your order <b>#${orderId}</b> status has been updated to: <b>${newStatus.toUpperCase()}</b>.</p>
+      `;
+
+      if (newStatus === "transit" && courierDetails) {
+        html += `
+          <p><b>Courier:</b> ${courierDetails.name}</p>
+          <p><b>Tracking ID:</b> ${courierDetails.trackingId}</p>
+          ${courierDetails.trackingUrl ? `<p><a href="${courierDetails.trackingUrl}">Track your shipment</a></p>` : ""}
+        `;
+      }
+
+      html += `
+        <br/><p>For help, contact support@britexcbe.com or call +91-9894517926.</p>
+        <p>— Cortez by BRITEX</p>
+      `;
+
+      await transporter.sendMail({
+        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
+        to: customerEmail,
+        subject: `Order #${orderId} - Status Updated to ${newStatus}`,
+        html,
+      });
+
+      return NextResponse.json({ success: true, message: "Status update email sent" });
+    }
+
+    // --- UNSUPPORTED TYPE ---
+    return NextResponse.json({ success: false, message: "Unsupported email type" }, { status: 400 });
+
   } catch (error: any) {
     console.error("❌ Error in send-email:", error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
