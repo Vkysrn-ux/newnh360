@@ -1,4 +1,4 @@
-import ProductManagement from '../../components/admin/ProductManagement';
+import ProductManagement from '@/components/admin/ProductManagement';
 
 export default function AdminPage() {
   return (
