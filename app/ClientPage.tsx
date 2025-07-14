@@ -424,39 +424,39 @@ export default function ClientPage() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">Shop</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
                   Mattresses
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
                   Pillows
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
                   Toppers
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
                   Protectors
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
-                  Bedding
+                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
+                  Accessories
                 </Link>
               </div>
             </div>
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">Support</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/about" className="block hover:text-orange-500 transition-colors">
                   About Us
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/faq" className="block hover:text-orange-500 transition-colors">
                   FAQ
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/contact" className="block hover:text-orange-500 transition-colors">
                   Contact
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
-                  Warranty
+                <Link href="/privacy-policy" className="block hover:text-orange-500 transition-colors">
+                  Privacy Policy
                 </Link>
-                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                <Link href="/return-policy" className="block hover:text-orange-500 transition-colors">
                   Return Policy
                 </Link>
               </div>

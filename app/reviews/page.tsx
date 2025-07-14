@@ -238,6 +238,83 @@ export default function ReviewsPage() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+              </div>
+              <p className="text-gray-400">A BRITEX Sleep Solution</p>
+              <p className="text-gray-400">
+                Experience better sleep with our premium mattresses and sleep accessories.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-lg font-semibold">Shop</h4>
+              <div className="space-y-2 text-gray-400">
+                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
+                  Mattresses
+                </Link>
+                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
+                  Pillows
+                </Link>
+                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
+                  Toppers
+                </Link>
+                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
+                  Protectors
+                </Link>
+                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
+                  Accessories
+                </Link>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-lg font-semibold">Support</h4>
+              <div className="space-y-2 text-gray-400">
+                <Link href="/about" className="block hover:text-orange-500 transition-colors">
+                  About Us
+                </Link>
+                <Link href="/faq" className="block hover:text-orange-500 transition-colors">
+                  FAQ
+                </Link>
+                <Link href="/contact" className="block hover:text-orange-500 transition-colors">
+                  Contact
+                </Link>
+                <Link href="/privacy-policy" className="block hover:text-orange-500 transition-colors">
+                  Privacy Policy
+                </Link>
+                <Link href="/return-policy" className="block hover:text-orange-500 transition-colors">
+                  Return Policy
+                </Link>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-lg font-semibold">Connect</h4>
+              <div className="space-y-2 text-gray-400">
+                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                  Facebook
+                </Link>
+                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                  Instagram
+                </Link>
+                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                  Twitter
+                </Link>
+                <Link href="#" className="block hover:text-orange-500 transition-colors">
+                  YouTube
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 Cortez by BRITEX. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
