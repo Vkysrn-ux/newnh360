@@ -63,10 +63,9 @@ export async function POST(req: NextRequest) {
       `;
 
       await transporter.sendMail({
-        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
-        to: "sales@britexcbe.com",
-        cc: ["sudha@britexcbe.com", "karan@britexcbe.com"],
-        subject: `New Order from ${orderData.customerName} - Order #${orderData.orderId}`,
+        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
+        to: "sales@nh360fastag.com",
+        subject: `New Order/Request from ${orderData.customerName} - #${orderData.orderId}`,
         html: salesHtml,
       });
 
@@ -84,9 +83,9 @@ export async function POST(req: NextRequest) {
       `;
 
       await transporter.sendMail({
-        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
+        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
         to: orderData.customerEmail,
-        subject: `Your Order with Cortez by BRITEX is Confirmed! (Order #${orderData.orderId})`,
+        subject: `Your Request with NH360 FASTag is Confirmed (Ref #${orderData.orderId})`,
         html: customerHtml,
       });
 
@@ -115,13 +114,13 @@ export async function POST(req: NextRequest) {
 
       html += `
         <br/><p>For help, contact support@britexcbe.com or call +91-9894517926.</p>
-        <p>— Cortez by BRITEX</p>
+        <p>— NH360 FASTag</p>
       `;
 
       await transporter.sendMail({
-        from: `"Cortez by BRITEX" <vkysrn3@gmail.com>`,
+        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
         to: customerEmail,
-        subject: `Order #${orderId} - Status Updated to ${newStatus}`,
+        subject: `Request #${orderId} - Status Updated to ${newStatus}`,
         html,
       });
 

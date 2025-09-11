@@ -19,23 +19,23 @@ import {
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Cortez | Data Protection & Privacy Information",
+  title: "Privacy Policy - NH360 FASTag | Data Protection & Privacy",
   description:
-    "Learn about how Cortez collects, uses, and protects your personal information. Our privacy policy ensures your data security and outlines your rights.",
+    "Learn how NH360 FASTag collects, uses, and protects your personal information. Read about your privacy rights and our data practices.",
   openGraph: {
-    title: "Privacy Policy - Cortez Sleep Solutions",
-    description: "Your privacy matters. Learn how we protect your personal information.",
-    images: ["/images/hero-mattress.jpg"],
+    title: "Privacy Policy - NH360 FASTag",
+    description: "Your privacy matters. Learn how we protect your information.",
+    images: ["/placeholder.jpg"],
   },
 }
 
 export default function PrivacyPolicyPage() {
   const lastUpdated = "January 15, 2025"
   const companyInfo = {
-    name: "Cortez by BRITEX",
-    address: "54RC+F3, Kakapalayam, Paduvampalli, Tamil Nadu 641659",
-    email: "karan@britexcbe.com",
-    phone: "+91-9894517926",
+    name: "NH360 FASTag",
+    address: "India (PAN‑India Service)",
+    email: "support@nh360fastag.com",
+    phone: "+91-0000000000",
   }
 
   const dataCategories = [
@@ -132,23 +132,15 @@ export default function PrivacyPolicyPage() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Shop
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-orange-600 transition-colors">
-              About
-            </Link>
-            <Link href="/reviews" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Reviews
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Contact
-            </Link>
+            <Link href="/#buy" className="text-gray-700 hover:text-orange-600 transition-colors">Buy FASTag</Link>
+            <Link href="/#recharge" className="text-gray-700 hover:text-orange-600 transition-colors">Recharge</Link>
+            <Link href="/#services" className="text-gray-700 hover:text-orange-600 transition-colors">Services</Link>
+            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">Contact</Link>
           </nav>
-          <Button className="bg-orange-600 hover:bg-orange-700 text-white">Shop Now</Button>
+          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white"><Link href="/#buy">Buy FASTag</Link></Button>
         </div>
       </header>
 
@@ -424,31 +416,19 @@ export default function PrivacyPolicyPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+                <div className="text-2xl font-bold text-orange-500">NH360 FASTag</div>
               </div>
-              <p className="text-gray-400">A BRITEX Sleep Solution</p>
-              <p className="text-gray-400">
-                Experience better sleep with our premium mattresses and sleep accessories.
-              </p>
+              <p className="text-gray-400">FASTag Sales & Services Across India</p>
+              <p className="text-gray-400">Buy FASTag, recharge, and get 24×7 support for all issuers.</p>
             </div>
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Shop</h4>
+              <h4 className="text-lg font-semibold">Services</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
-                  Mattresses
-                </Link>
-                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
-                  Pillows
-                </Link>
-                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
-                  Toppers
-                </Link>
-                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
-                  Protectors
-                </Link>
-                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
-                  Accessories
-                </Link>
+                <Link href="/#buy" className="block hover:text-orange-500 transition-colors">Buy FASTag</Link>
+                <Link href="/#recharge" className="block hover:text-orange-500 transition-colors">Recharge</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">KYC Update</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Blacklist Removal</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Fleet Solutions</Link>
               </div>
             </div>
             <div className="space-y-4">
@@ -490,7 +470,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Cortez by BRITEX. All rights reserved.</p>
+            <p>&copy; 2025 NH360 FASTag. All rights reserved.</p>
           </div>
         </div>
       </footer>

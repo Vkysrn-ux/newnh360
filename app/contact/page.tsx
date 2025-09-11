@@ -7,13 +7,13 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Contact Cortez | Get in Touch | Sleep Solutions Support",
+  title: "Contact NH360 FASTag | FASTag Sales, Recharge & Support",
   description:
-    "Contact Cortez for premium sleep solutions support. Phone: +91-9894517926, Email: karan@britexcbe.com. Located in Tamil Nadu with free shipping across India.",
+    "Get FASTag help from NH360 FASTag — new tag issuance, recharge assistance, KYC updates, blacklist removal, and fleet solutions across India.",
   openGraph: {
-    title: "Contact Cortez - Premium Sleep Solutions Support",
-    description: "Get in touch with our sleep experts for personalized assistance and support.",
-    images: ["/images/hero-mattress.jpg"],
+    title: "Contact NH360 FASTag",
+    description: "Talk to our FASTag experts for sales, recharge, and support.",
+    images: ["/placeholder.jpg"],
   },
 }
 
@@ -51,23 +51,15 @@ export default function ContactPage() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Shop
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-orange-600 transition-colors">
-              About
-            </Link>
-            <Link href="/reviews" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Reviews
-            </Link>
-            <Link href="/contact" className="text-orange-600 font-medium">
-              Contact
-            </Link>
+            <Link href="/#buy" className="text-gray-700 hover:text-orange-600 transition-colors">Buy FASTag</Link>
+            <Link href="/#recharge" className="text-gray-700 hover:text-orange-600 transition-colors">Recharge</Link>
+            <Link href="/#services" className="text-gray-700 hover:text-orange-600 transition-colors">Services</Link>
+            <Link href="/contact" className="text-orange-600 font-medium">Contact</Link>
           </nav>
-          <Button className="bg-orange-600 hover:bg-orange-700 text-white">Shop Now</Button>
+          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white"><Link href="/#buy">Buy FASTag</Link></Button>
         </div>
       </header>
 
@@ -75,8 +67,8 @@ export default function ContactPage() {
       <section className="bg-gradient-to-br from-orange-50 to-white py-16">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">Get in Touch</h1>
-            <p className="text-xl text-gray-600">We're here to help with all your sleep needs</p>
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">Get FASTag Support</h1>
+            <p className="text-xl text-gray-600">Sales, recharge, KYC and blacklist assistance across India</p>
           </div>
         </div>
       </section>
@@ -252,31 +244,19 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+                <div className="text-2xl font-bold text-orange-500">NH360 FASTag</div>
               </div>
-              <p className="text-gray-400">A BRITEX Sleep Solution</p>
-              <p className="text-gray-400">
-                Experience better sleep with our premium mattresses and sleep accessories.
-              </p>
+              <p className="text-gray-400">FASTag Sales & Services Across India</p>
+              <p className="text-gray-400">Buy FASTag, recharge, and get 24×7 support for all issuers.</p>
             </div>
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Shop</h4>
+              <h4 className="text-lg font-semibold">Services</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
-                  Mattresses
-                </Link>
-                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
-                  Pillows
-                </Link>
-                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
-                  Toppers
-                </Link>
-                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
-                  Protectors
-                </Link>
-                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
-                  Accessories
-                </Link>
+                <Link href="/#buy" className="block hover:text-orange-500 transition-colors">Buy FASTag</Link>
+                <Link href="/#recharge" className="block hover:text-orange-500 transition-colors">Recharge</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">KYC Update</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Blacklist Removal</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Fleet Solutions</Link>
               </div>
             </div>
             <div className="space-y-4">
@@ -318,7 +298,7 @@ export default function ContactPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Cortez by BRITEX. All rights reserved.</p>
+            <p>&copy; 2025 NH360 FASTag. All rights reserved.</p>
           </div>
         </div>
       </footer>

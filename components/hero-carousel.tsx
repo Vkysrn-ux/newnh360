@@ -60,160 +60,95 @@ export function HeroCarousel() {
   const slides: HeroSlide[] = [
     {
       id: 1,
-      badge: "A BRITEX Sleep Solution",
-      title: "Better Sleep,",
-      subtitle: "Better Life",
+      badge: "NH360 FASTag",
+      title: "Buy FASTag,",
+      subtitle: "Online in Minutes",
       description:
-        "Experience the perfect blend of comfort, support, and technology with Cortez mattresses. Designed for the modern Indian home, crafted for your best sleep.",
+        "FASTag sales and activation across India. Doorstep KYC help, same‑day activation, and expert support for individuals and fleets.",
       primaryButton: {
-        text: "Shop Now",
+        text: "Buy FASTag",
         action: "shop",
-        href: "/shop",
+        href: "#buy",
       },
       secondaryButton: {
-        text: "Explore Cortez Collection",
-        href: "/shop",
+        text: "Recharge FASTag",
+        href: "#recharge",
       },
       rating: 4.8,
-      reviews: "3,000+ reviews",
-      additionalInfo: "Free shipping across India",
-      startingPrice: "₹24,999",
-      image: "/images/hero-interior-room.jpg",
-      imageAlt: "Modern bedroom with Cortez mattress",
+      reviews: "5,000+ tags issued",
+      additionalInfo: "PAN‑India assistance",
+      startingPrice: "₹499",
+      image: "/placeholder.jpg",
+      imageAlt: "FASTag purchase and activation",
     },
     {
       id: 2,
-      badge: "Premium Natural Latex",
-      title: "7-Zone Comfort",
-      subtitle: "Technology",
+      badge: "Instant Recharge",
+      title: "FASTag Recharge",
+      subtitle: "Assistance",
       description:
-        "Revolutionary 7-layer natural latex construction imported from Thailand. Each zone provides targeted support for optimal spine alignment and pressure relief.",
+        "Top up any bank’s FASTag quickly. Get help fixing failed recharges, reversals, and wallet issues.",
       primaryButton: {
-        text: "View Product",
-        action: "product",
+        text: "Recharge Now",
+        action: "shop",
+        href: "#recharge",
       },
       secondaryButton: {
-        text: "Learn More",
-        href: "/about",
+        text: "See Services",
+        href: "#services",
       },
       rating: 4.9,
-      reviews: "1,200+ reviews",
-      additionalInfo: "15-year warranty included",
-      startingPrice: "₹43,500",
-      image: "/images/memory-foam-mattress.jpg",
-      imageAlt: "Natural latex mattress with 7-zone technology",
-      product: {
-        id: 1,
-        name: "Natural Latex Mattress 78x72x6",
-        price: 46000,
-        originalPrice: 55000,
-        image: "/images/memory-foam-mattress.jpg",
-        description:
-          "Revolutionary 7-layer natural latex construction imported from Thailand with superior comfort and support",
-        rating: 4.9,
-        reviews: 1247,
-        category: "mattresses",
-        size: "78x72x6 inches",
-        features: [
-          "100% Natural Latex",
-          "7-Zone Support",
-          "Anti-Allergic",
-          "Breathable",
-          "Temperature Regulation",
-          "Edge Support",
-        ],
-        warranty: "15 Years",
-        specifications: {
-          material: "100% Natural Latex from Thailand",
-          thickness: "6 inches with 7-layer construction",
-          firmness: "Medium-firm with zoned support",
-          care: "Spot clean with mild detergent",
-        },
-      },
+      reviews: "10,000+ recharges",
+      additionalInfo: "Support for all issuers",
+      startingPrice: "From ₹100",
+      image: "/placeholder.jpg",
+      imageAlt: "FASTag recharge support",
     },
     {
       id: 3,
-      badge: "Baby Safe Materials",
-      title: "Safe Sleep for",
-      subtitle: "Little Ones",
+      badge: "Fleet Solutions",
+      title: "Corporate & Fleet",
+      subtitle: "FASTag",
       description:
-        "Specially designed baby beds with hypoallergenic materials and gentle support. Certified safe for infants with non-toxic, breathable construction.",
+        "Bulk issuance, centralized recharge, usage reports, and dispute handling tailored for logistics and transport fleets.",
       primaryButton: {
-        text: "View Product",
-        action: "product",
+        text: "Talk to Expert",
+        action: "shop",
+        href: "/contact",
       },
       secondaryButton: {
-        text: "Safety Features",
-        href: "/about",
+        text: "Explore Fleet",
+        href: "#services",
       },
-      rating: 4.8,
-      reviews: "340+ reviews",
-      additionalInfo: "Pediatrician recommended",
-      startingPrice: "₹6,999",
-      image: "/images/baby-bed.jpg",
-      imageAlt: "Safe and comfortable baby bed",
-      product: {
-        id: 16,
-        name: "Baby Bed",
-        price: 6999,
-        originalPrice: 9499,
-        image: "/images/baby-bed.jpg",
-        description: "Safe and comfortable bed designed specifically for babies with hypoallergenic materials",
-        rating: 4.8,
-        reviews: 345,
-        category: "mattresses",
-        size: "48x24x4 inches",
-        features: ["Baby Safe Materials", "Hypoallergenic", "Soft Support", "Non-toxic", "Breathable", "Easy Clean"],
-        warranty: "3 Years",
-        specifications: {
-          material: "Certified baby-safe foam and fabrics",
-          thickness: "4 inches with gentle support",
-          firmness: "Soft yet supportive for infants",
-          care: "Machine washable cover",
-        },
-      },
+      rating: 4.7,
+      reviews: "900+ fleets served",
+      additionalInfo: "Dedicated account support",
+      startingPrice: "Custom",
+      image: "/placeholder.jpg",
+      imageAlt: "Fleet FASTag solutions",
     },
     {
       id: 4,
-      badge: "Space-Saving Solutions",
-      title: "Hostel & Compact",
-      subtitle: "Living",
+      badge: "24×7 Support",
+      title: "KYC, Blacklist",
+      subtitle: "& Disputes",
       description:
-        "Innovative foldable beds and compact mattresses perfect for hostels, PG accommodations, and small spaces. Durable, portable, and easy to store.",
+        "End‑to‑end help for KYC updates, blacklist removal, tag replacement, and toll dispute resolution.",
       primaryButton: {
-        text: "View Product",
-        action: "product",
+        text: "Get Support",
+        action: "shop",
+        href: "#services",
       },
       secondaryButton: {
-        text: "Bulk Orders",
+        text: "Contact Us",
         href: "/contact",
       },
-      rating: 4.5,
-      reviews: "180+ reviews",
-      additionalInfo: "Bulk pricing available",
-      startingPrice: "₹8,999",
-      image: "/images/hostel-bed.jpg",
-      imageAlt: "Foldable hostel bed for compact living",
-      product: {
-        id: 14,
-        name: "Hostel Bed Foldable 72x36x2",
-        price: 8999,
-        originalPrice: 11999,
-        image: "/images/hostel-bed.jpg",
-        description: "Compact foldable bed perfect for hostels and small spaces with durable construction",
-        rating: 4.4,
-        reviews: 189,
-        category: "mattresses",
-        size: "72x36x2 inches",
-        features: ["Foldable Design", "Space Saving", "Portable", "Durable", "Easy Storage", "Quick Setup"],
-        warranty: "5 Years",
-        specifications: {
-          material: "High-density foam with fabric cover",
-          thickness: "2 inches when unfolded",
-          firmness: "Medium support for daily use",
-          care: "Removable washable cover",
-        },
-      },
+      rating: 4.6,
+      reviews: "3,500+ resolved",
+      additionalInfo: "All India coverage",
+      startingPrice: "—",
+      image: "/placeholder.jpg",
+      imageAlt: "FASTag support and services",
     },
   ]
 
@@ -221,6 +156,13 @@ export function HeroCarousel() {
     if (isTransitioning) return
     setIsTransitioning(true)
     setCurrentSlide((prev) => (prev + 1) % slides.length)
+    setTimeout(() => setIsTransitioning(false), 500)
+  }
+
+  const prevSlide = () => {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
     setTimeout(() => setIsTransitioning(false), 500)
   }
 
@@ -240,7 +182,7 @@ export function HeroCarousel() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-orange-50 to-white py-16 lg:py-24 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-black to-neutral-950 py-16 lg:py-24 relative overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
             {/* Text Content */}
@@ -251,19 +193,19 @@ export function HeroCarousel() {
                 }`}
               >
                 <div className="space-y-4">
-                  <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100 text-sm font-medium px-4 py-2">
+                  <Badge className="bg-orange-500/20 text-orange-300 hover:bg-orange-500/25 text-sm font-medium px-4 py-2">
                     {currentSlideData.badge}
                   </Badge>
 
                   <div className="space-y-2">
-                    <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                    <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
                       {currentSlideData.title}
                       <br />
                       <span className="text-orange-600">{currentSlideData.subtitle}</span>
                     </h1>
                   </div>
 
-                  <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">{currentSlideData.description}</p>
+                  <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">{currentSlideData.description}</p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -300,11 +242,11 @@ export function HeroCarousel() {
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center space-x-1">
                       <Star className="h-5 w-5 fill-orange-400 text-orange-400" />
-                      <span className="font-bold text-gray-900 text-base">{currentSlideData.rating}/5</span>
+                      <span className="font-bold text-white text-base">{currentSlideData.rating}/5</span>
                     </div>
-                    <span className="text-gray-600">({currentSlideData.reviews})</span>
+                    <span className="text-gray-400">({currentSlideData.reviews})</span>
                   </div>
-                  <div className="text-gray-600 font-medium">{currentSlideData.additionalInfo}</div>
+                  <div className="text-gray-400 font-medium">{currentSlideData.additionalInfo}</div>
                 </div>
               </div>
             </div>
@@ -326,13 +268,51 @@ export function HeroCarousel() {
                 />
 
                 {/* Price Badge */}
-                <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                  <div className="text-sm text-gray-600 font-medium">Starting from</div>
-                  <div className="text-3xl font-bold text-orange-600">{currentSlideData.startingPrice}</div>
+                <div className="absolute -bottom-6 -left-6 bg-black p-6 rounded-xl shadow-xl border border-orange-900">
+                  <div className="text-sm text-gray-300 font-medium">Starting from</div>
+                  <div className="text-3xl font-bold text-orange-500">{currentSlideData.startingPrice}</div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4">
+          <button
+            aria-label="Previous slide"
+            onClick={prevSlide}
+            className="pointer-events-auto inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow border border-gray-200"
+          >
+            <span className="sr-only">Previous</span>
+            {/* left chevron */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path fillRule="evenodd" d="M15.53 4.47a.75.75 0 0 1 0 1.06L9.06 12l6.47 6.47a.75.75 0 1 1-1.06 1.06l-7-7a.75.75 0 0 1 0-1.06l7-7a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            onClick={nextSlide}
+            className="pointer-events-auto inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow border border-gray-200"
+          >
+            <span className="sr-only">Next</span>
+            {/* right chevron */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path fillRule="evenodd" d="M8.47 19.53a.75.75 0 0 1 0-1.06L14.94 12 8.47 5.53a.75.75 0 0 1 1.06-1.06l7 7a.75.75 0 0 1 0 1.06l-7 7a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              aria-label={`Go to slide ${idx + 1}`}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2.5 rounded-full transition-all ${idx === currentSlide ? "w-6 bg-orange-600" : "w-2.5 bg-gray-300 hover:bg-gray-400"}`}
+            />
+          ))}
         </div>
       </section>
 
@@ -344,3 +324,4 @@ export function HeroCarousel() {
     </>
   )
 }
+

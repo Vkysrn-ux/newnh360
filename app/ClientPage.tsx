@@ -3,170 +3,70 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import {
-  Star,
-  Truck,
-  Shield,
-  Clock,
-  MapPin,
-  Award,
-  Leaf,
-  Baby,
-  Building2,
-  Hotel,
-  PillIcon as Pillow,
-  ShoppingBag,
-} from "lucide-react"
+import { Star, Truck, Shield, Clock, MapPin, Award, Car, CreditCard, UserCheck, Ban, Headphones } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { ProductCarousel } from "@/components/product-carousel"
 import { HeroCarousel } from "@/components/hero-carousel"
-import { useCart } from "@/components/cart-context"
-
-// Add this component before the main HomePage component:
-function CartIcon() {
-  const { state, dispatch } = useCart()
-  const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0)
-
-  return (
-    <Button variant="ghost" size="icon" className="relative" onClick={() => dispatch({ type: "TOGGLE_CART" })}>
-      <ShoppingBag className="h-6 w-6" />
-      {totalItems > 0 && (
-        <Badge className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
-          {totalItems}
-        </Badge>
-      )}
-    </Button>
-  )
-}
+import { ProductCarousel } from "@/components/product-carousel"
 
 export default function ClientPage() {
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Natural Latex Mattress 78x72x6",
-      price: "₹46,000",
-      originalPrice: "₹55,000",
-      image: "/images/memory-foam-mattress.jpg",
-      description: "7-zone comfort latex imported from Thailand with 15-year warranty",
-      rating: 4.9,
-      reviews: 1247,
-      category: "mattresses",
-      features: ["100% Natural Latex", "7-Zone Support", "15 Year Warranty"],
-    },
-    {
-      id: 2,
-      name: "Cervical Latex Shredded Pillow",
-      price: "₹1,950",
-      originalPrice: "₹2,500",
-      image: "/images/cervical-pillow.jpg",
-      description: "Ergonomic cervical support with shredded latex filling",
-      rating: 4.8,
-      reviews: 723,
-      category: "pillows",
-      features: ["Cervical Support", "Shredded Latex", "Breathable"],
-    },
-    {
-      id: 3,
-      name: "Natural Latex Topper 78x72x2",
-      price: "₹19,500",
-      originalPrice: "₹24,000",
-      image: "/images/mattress-topper.jpg",
-      description: "2-inch natural latex topper for enhanced comfort",
-      rating: 4.7,
-      reviews: 456,
-      category: "toppers",
-      features: ["100% Natural Latex", "Pressure Relief", "10 Year Warranty"],
-    },
-    {
-      id: 4,
-      name: "Waterproof Mattress Protector",
-      price: "₹2,499",
-      originalPrice: "₹3,299",
-      image: "/images/mattress-protector.jpg",
-      description: "100% waterproof protection with breathable fabric",
-      rating: 4.9,
-      reviews: 1156,
-      category: "protectors",
-      features: ["100% Waterproof", "Breathable", "Machine Washable"],
-    },
-    {
-      id: 5,
-      name: "Charcoal Pillows",
-      price: "₹1,950",
-      originalPrice: "₹2,400",
-      image: "/images/charcoal-pillow.jpg",
-      description: "Activated charcoal infused pillows for odor control",
-      rating: 4.6,
-      reviews: 543,
-      category: "pillows",
-      features: ["Charcoal Infused", "Odor Control", "Anti-Bacterial"],
-    },
-    {
-      id: 6,
-      name: "Baby Bed",
-      price: "₹6,999",
-      originalPrice: "₹9,499",
-      image: "/images/baby-bed.jpg",
-      description: "Safe and comfortable bed designed specifically for babies",
-      rating: 4.8,
-      reviews: 345,
-      category: "mattresses",
-      features: ["Baby Safe", "Hypoallergenic", "Soft Support"],
-    },
-  ]
+  // FASTag-focused services and highlights
 
-  const specializations = [
+  const services = [
     {
-      icon: <Hotel className="h-8 w-8" />,
-      title: "Hotel & Hospitality",
-      description: "Premium linens and mattresses for hotels and resorts",
-      products: ["Hotel Linens", "Commercial Mattresses", "Bulk Orders"],
-      image: "/images/hotel-linens.jpg",
+      icon: <Car className="h-8 w-8" />,
+      title: "Buy FASTag",
+      description: "New FASTag issuance for cars, SUVs, and commercial vehicles with quick KYC assistance.",
+      points: ["Same‑day activation", "Doorstep document help", "PAN‑India"],
+      image: "/placeholder.jpg",
+      id: "buy",
     },
     {
-      icon: <Building2 className="h-8 w-8" />,
-      title: "Hostel Solutions",
-      description: "Space-saving foldable beds perfect for hostels",
-      products: ["Foldable Beds", "Compact Mattresses", "Durable Design"],
-      image: "/images/hostel-bed.jpg",
+      icon: <CreditCard className="h-8 w-8" />,
+      title: "Recharge Assistance",
+      description: "Top up any bank’s FASTag, fix failed recharges and reversals with guided support.",
+      points: ["All issuers supported", "Instant help", "Secure payments"],
+      image: "/placeholder.jpg",
+      id: "recharge",
     },
     {
-      icon: <Baby className="h-8 w-8" />,
-      title: "Baby & Kids",
-      description: "Safe and comfortable sleep solutions for children",
-      products: ["Baby Beds", "Kids Mattresses", "Hypoallergenic Materials"],
-      image: "/images/baby-bed.jpg",
+      icon: <UserCheck className="h-8 w-8" />,
+      title: "KYC & Tag Replacement",
+      description: "Update KYC, replace damaged tags, or move FASTag to a new vehicle easily.",
+      points: ["Doorstep KYC", "Quick replacement", "All vehicles"],
+      image: "/placeholder.jpg",
+      id: "services",
     },
     {
-      icon: <Pillow className="h-8 w-8" />,
-      title: "Therapeutic Pillows",
-      description: "Specialized pillows for neck and spine support",
-      products: ["Cervical Pillows", "Charcoal Pillows", "Memory Foam"],
-      image: "/images/cervical-pillow.jpg",
+      icon: <Ban className="h-8 w-8" />,
+      title: "Blacklist Removal",
+      description: "Resolve blacklist due to low balance, KYC, or issuer issues. We coordinate end‑to‑end.",
+      points: ["Faster resolution", "Issuer coordination", "Dispute support"],
+      image: "/placeholder.jpg",
+      id: "services",
     },
   ]
 
   const testimonials = [
     {
-      name: "Priya Sharma",
-      location: "Mumbai",
-      rating: 5,
-      text: "Best investment for my sleep! The Cortez mattress has completely transformed my nights. No more back pain and I wake up refreshed every morning.",
-      verified: true,
-    },
-    {
-      name: "Rajesh Kumar",
+      name: "Vikram Singh",
       location: "Delhi",
       rating: 5,
-      text: "Amazing quality and comfort. The 100-night trial gave me confidence to try it, and I'm so glad I did. Highly recommend Cortez!",
+      text: "Got my FASTag same day with NH360. KYC was super easy and support was excellent.",
       verified: true,
     },
     {
-      name: "Anita Patel",
-      location: "Bangalore",
+      name: "Anjali Mehta",
+      location: "Mumbai",
       rating: 5,
-      text: "The customer service is exceptional and the mattress quality is top-notch. Worth every penny for the comfort it provides.",
+      text: "They quickly resolved a blacklist issue and helped with recharge reversal. Highly recommended!",
+      verified: true,
+    },
+    {
+      name: "Ramesh Nair",
+      location: "Bengaluru",
+      rating: 5,
+      text: "Great for fleet recharge and consolidated support. Smooth coordination and quick response.",
       verified: true,
     },
   ]
@@ -174,41 +74,41 @@ export default function ClientPage() {
   const usp = [
     {
       icon: <Clock className="h-8 w-8" />,
-      title: "100-Night Trial",
-      description: "Try risk-free for 100 nights",
+      title: "Same‑Day Activation",
+      description: "Get up and running faster",
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: "15-Year Warranty",
-      description: "Comprehensive warranty coverage",
-    },
-    {
-      icon: <Truck className="h-8 w-8" />,
-      title: "Free Shipping",
-      description: "Free delivery across India",
+      title: "All Banks Supported",
+      description: "Recharge and service any issuer",
     },
     {
       icon: <MapPin className="h-8 w-8" />,
-      title: "Made in India",
-      description: "Proudly manufactured in India",
+      title: "PAN‑India Service",
+      description: "We cover every highway",
+    },
+    {
+      icon: <Headphones className="h-8 w-8" />,
+      title: "24×7 Support",
+      description: "Expert help when you need it",
     },
   ]
 
   const certifications = [
     {
       icon: <Award className="h-8 w-8" />,
-      title: "ECO INSTITUT Certified",
-      description: "Environmental safety and sustainability standards",
+      title: "IHMCL/NHAI Compliant",
+      description: "Aligned with national FASTag standards",
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: "SGS Certified",
-      description: "International quality and safety verification",
+      title: "Secure Payments",
+      description: "Safe and trusted processing",
     },
     {
-      icon: <Leaf className="h-8 w-8" />,
-      title: "GOLS Certified",
-      description: "Global Organic Latex Standard certification",
+      icon: <Truck className="h-8 w-8" />,
+      title: "Fleet Ready",
+      description: "Built for logistics and transport",
     },
   ]
 
@@ -218,31 +118,60 @@ export default function ClientPage() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </div>
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Shop
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-orange-600 transition-colors">
-              About
-            </Link>
-            <Link href="/reviews" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Reviews
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Contact
-            </Link>
+            <Link href="#buy" className="text-gray-700 hover:text-orange-600 transition-colors">Buy FASTag</Link>
+            <Link href="#recharge" className="text-gray-700 hover:text-orange-600 transition-colors">Recharge</Link>
+            <Link href="#services" className="text-gray-700 hover:text-orange-600 transition-colors">Services</Link>
+            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">Contact</Link>
           </nav>
           <div className="flex items-center space-x-4">
-            <CartIcon />
-            <Button className="bg-orange-600 hover:bg-orange-700 text-white">Shop Now</Button>
+            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white">
+              <Link href="#buy">Buy FASTag</Link>
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <HeroCarousel />
+
+      {/* Quick Actions */}
+      <section className="py-12 bg-white" id="buy">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-6 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
+                    <Car className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Buy FASTag</h3>
+                </div>
+                <p className="text-gray-600">Get a new FASTag for your vehicle with doorstep KYC assistance and quick activation.</p>
+                <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white">
+                  <Link href="/contact">Get Started</Link>
+                </Button>
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-lg" id="recharge">
+              <CardContent className="p-6 space-y-3">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
+                    <CreditCard className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Recharge Assistance</h3>
+                </div>
+                <p className="text-gray-600">Top up any bank’s FASTag and fix failed recharge or reversal issues.</p>
+                <Button asChild variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
+                  <Link href="/contact">Recharge Now</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       {/* Certifications Section */}
       <section className="py-16 bg-gray-50">
@@ -265,6 +194,68 @@ export default function ClientPage() {
         </div>
       </section>
 
+      {/* FASTag Products Carousel */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <ProductCarousel
+            title="FASTag Products"
+            subtitle="Choose your FASTag type"
+            disableLinks
+            leadMode
+            products={[
+              {
+                id: 101,
+                name: "FASTag (Car / Jeep / Van)",
+                price: "₹499",
+                originalPrice: "₹600",
+                image: "/placeholder.jpg",
+                description: "Tag issuance + activation + KYC assistance",
+                rating: 4.8,
+                reviews: 1200,
+                category: "fastag",
+                features: ["Same‑day activation", "All India", "KYC support"],
+              },
+              {
+                id: 102,
+                name: "FASTag (LCV / Truck / Bus)",
+                price: "₹600",
+                originalPrice: "₹750",
+                image: "/placeholder.jpg",
+                description: "Commercial vehicle FASTag issuance and activation",
+                rating: 4.7,
+                reviews: 890,
+                category: "fastag",
+                features: ["Fleet ready", "Assisted onboarding", "Nationwide"],
+              },
+              {
+                id: 103,
+                name: "FASTag Recharge Assistance",
+                price: "₹100",
+                originalPrice: "₹150",
+                image: "/placeholder.jpg",
+                description: "Recharge guidance and failed-payment resolution",
+                rating: 4.9,
+                reviews: 2100,
+                category: "fastag",
+                features: ["All issuers", "Instant help", "Secure"],
+              },
+              {
+                id: 104,
+                name: "KYC Update / Tag Replacement",
+                price: "₹199",
+                originalPrice: "₹249",
+                image: "/placeholder.jpg",
+                description: "KYC updates and damaged tag replacement support",
+                rating: 4.6,
+                reviews: 540,
+                category: "fastag",
+                features: ["Quick processing", "Doorstep help", "Nationwide"],
+              },
+            ]}
+          />
+        </div>
+      </section>
+
       {/* USP Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -281,27 +272,15 @@ export default function ClientPage() {
           </div>
         </div>
       </section>
-
-      {/* Featured Products Carousel */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <ProductCarousel
-            products={featuredProducts}
-            title="Featured Products"
-            subtitle="Discover our most loved sleep solutions"
-          />
-        </div>
-      </section>
-
-      {/* Specializations Section */}
-      <section className="py-16">
+      {/* Services Section */}
+      <section id="services" className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Our Specializations</h2>
-            <p className="text-xl text-gray-600">Tailored sleep solutions for every need</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Our Services</h2>
+            <p className="text-xl text-gray-600">FASTag sales, recharge, and support across India</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {specializations.map((spec, index) => (
+            {services.map((spec, index) => (
               <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
                 <CardContent className="p-0">
                   <div className="relative overflow-hidden rounded-t-lg">
@@ -322,12 +301,17 @@ export default function ClientPage() {
                     </div>
                     <p className="text-gray-600">{spec.description}</p>
                     <div className="space-y-2">
-                      {spec.products.map((product, idx) => (
+                      {spec.points.map((p: string, idx: number) => (
                         <div key={idx} className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
-                          <span className="text-sm text-gray-700">{product}</span>
+                          <span className="text-sm text-gray-700">{p}</span>
                         </div>
                       ))}
+                    </div>
+                    <div className="pt-2">
+                      <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                        <Link href={`#${spec.id}`}>Get Started</Link>
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -337,41 +321,41 @@ export default function ClientPage() {
         </div>
       </section>
 
-      {/* Why Cortez Section */}
+      {/* Why NH360 FASTag */}
       <section className="py-16 bg-gradient-to-br from-orange-600 to-orange-700 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold">Why Choose Cortez?</h2>
-            <p className="text-xl text-orange-100">The difference that makes all the difference</p>
+            <h2 className="text-3xl lg:text-4xl font-bold">Why NH360 FASTag?</h2>
+            <p className="text-xl text-orange-100">Fast, reliable, and compliant FASTag services</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
                 <Shield className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold">Premium Quality</h3>
-              <p className="text-orange-100">Certified materials and rigorous quality testing ensure lasting comfort</p>
-            </div>
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-                <Star className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold">Superior Comfort</h3>
-              <p className="text-orange-100">Advanced memory foam technology adapts to your body for perfect support</p>
+              <h3 className="text-xl font-semibold">Trusted & Compliant</h3>
+              <p className="text-orange-100">Aligned with IHMCL/NHAI guidelines and best practices</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
                 <Clock className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold">Innovative Technology</h3>
-              <p className="text-orange-100">Cooling gel infusion and breathable design for temperature regulation</p>
+              <h3 className="text-xl font-semibold">Quick Activation</h3>
+              <p className="text-orange-100">Same‑day onboarding with guided KYC support</p>
             </div>
             <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
                 <Truck className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold">Exceptional Service</h3>
-              <p className="text-orange-100">Dedicated customer support and hassle-free delivery experience</p>
+              <h3 className="text-xl font-semibold">Fleet Friendly</h3>
+              <p className="text-orange-100">Bulk issuance, centralized recharge, and reports</p>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+                <MapPin className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-semibold">PAN‑India Support</h3>
+              <p className="text-orange-100">End‑to‑end help across all states</p>
             </div>
           </div>
         </div>
@@ -414,31 +398,19 @@ export default function ClientPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+                <div className="text-2xl font-bold text-orange-500">NH360 FASTag</div>
               </div>
-              <p className="text-gray-400">A BRITEX Sleep Solution</p>
-              <p className="text-gray-400">
-                Experience better sleep with our premium mattresses and sleep accessories.
-              </p>
+              <p className="text-gray-400">FASTag Sales & Services Across India</p>
+              <p className="text-gray-400">Buy FASTag, recharge, and get 24×7 support for all issuers.</p>
             </div>
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Shop</h4>
+              <h4 className="text-lg font-semibold">Services</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
-                  Mattresses
-                </Link>
-                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
-                  Pillows
-                </Link>
-                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
-                  Toppers
-                </Link>
-                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
-                  Protectors
-                </Link>
-                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
-                  Accessories
-                </Link>
+                <Link href="#buy" className="block hover:text-orange-500 transition-colors">Buy FASTag</Link>
+                <Link href="#recharge" className="block hover:text-orange-500 transition-colors">Recharge</Link>
+                <Link href="#services" className="block hover:text-orange-500 transition-colors">KYC Update</Link>
+                <Link href="#services" className="block hover:text-orange-500 transition-colors">Blacklist Removal</Link>
+                <Link href="#services" className="block hover:text-orange-500 transition-colors">Fleet Solutions</Link>
               </div>
             </div>
             <div className="space-y-4">
@@ -480,7 +452,7 @@ export default function ClientPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Cortez by BRITEX. All rights reserved.</p>
+            <p>&copy; 2025 NH360 FASTag. All rights reserved.</p>
           </div>
         </div>
       </footer>

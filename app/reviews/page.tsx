@@ -6,13 +6,13 @@ import { Star, ThumbsUp, User, Calendar } from "lucide-react"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Cortez Customer Reviews | 4.8/5 Stars | Real Sleep Experiences",
+  title: "NH360 FASTag Reviews | 4.8/5 | Real Customer Experiences",
   description:
-    "Read genuine customer reviews for Cortez mattresses and sleep products. 4.8/5 star rating with 3,000+ verified reviews. See why customers love our 7-layer latex technology.",
+    "Read genuine customer feedback for NH360 FASTag services — tag issuance, recharge assistance, KYC and blacklist support. 4.8/5 with 3,000+ verified experiences.",
   openGraph: {
-    title: "Cortez Customer Reviews - 4.8/5 Stars",
-    description: "Read real customer experiences and reviews for Cortez premium sleep products.",
-    images: ["/images/memory-foam-mattress.jpg"],
+    title: "NH360 FASTag Reviews",
+    description: "Real experiences for FASTag sales, recharge, and support across India.",
+    images: ["/placeholder.jpg"],
   },
 }
 
@@ -24,10 +24,10 @@ export default function ReviewsPage() {
       location: "Mumbai, Maharashtra",
       rating: 5,
       date: "2024-01-15",
-      product: "Cortez Premium Memory Foam Mattress",
-      title: "Life-changing sleep experience!",
+      product: "FASTag Issuance & Activation",
+      title: "Quick and hassle-free!",
       content:
-        "I've been struggling with back pain for years, and this mattress has completely transformed my sleep. The 7-layer latex construction provides perfect support, and I wake up pain-free every morning. The cooling gel technology works amazingly well in Mumbai's humid climate. Worth every penny!",
+        "Got my FASTag the same day. KYC help was smooth and activation was quick. Excellent service!",
       verified: true,
       helpful: 24,
       images: 2,
@@ -38,10 +38,10 @@ export default function ReviewsPage() {
       location: "Delhi, NCR",
       rating: 5,
       date: "2024-01-10",
-      product: "Cortez Luxury Pillow Set",
-      title: "Best pillows I've ever owned",
+      product: "Recharge Assistance",
+      title: "Recharge issue fixed fast",
       content:
-        "The ergonomic design is fantastic. My neck pain has completely disappeared since I started using these pillows. The bamboo fiber cover is incredibly soft and breathable. The 100-night trial gave me confidence to try them, and I'm so glad I did. Highly recommend to anyone with neck issues.",
+        "A failed recharge got reversed and re-processed correctly with their help. Very responsive team.",
       verified: true,
       helpful: 18,
       images: 1,
@@ -52,10 +52,10 @@ export default function ReviewsPage() {
       location: "Bangalore, Karnataka",
       rating: 5,
       date: "2024-01-08",
-      product: "Cortez Ortho Spine Support Mattress",
-      title: "Exceptional quality and customer service",
+      product: "Blacklist Removal",
+      title: "Blacklist resolved",
       content:
-        "The mattress quality is top-notch. The orthopaedic support is exactly what I needed for my spine alignment issues. The delivery was prompt, and the customer service team was incredibly helpful throughout the process. The 10-year warranty gives me peace of mind about this investment.",
+        "They coordinated with the issuer and got my tag out of blacklist quickly. Kept me updated throughout.",
       verified: true,
       helpful: 31,
       images: 3,
@@ -66,10 +66,10 @@ export default function ReviewsPage() {
       location: "Pune, Maharashtra",
       rating: 4,
       date: "2024-01-05",
-      product: "Cortez Mattress Topper",
-      title: "Great addition to my existing mattress",
+      product: "Fleet FASTag",
+      title: "Good for our fleet",
       content:
-        "Added this topper to my old mattress and it feels like a completely new bed. The 3-inch memory foam provides excellent comfort and the cooling technology works well. Only reason for 4 stars is that it took a few days to expand fully, but overall very satisfied with the purchase.",
+        "Bulk issuance and centralized recharge made things easier. Reporting could be even more detailed, but overall very helpful.",
       verified: true,
       helpful: 15,
       images: 0,
@@ -80,10 +80,10 @@ export default function ReviewsPage() {
       location: "Hyderabad, Telangana",
       rating: 5,
       date: "2024-01-03",
-      product: "Cortez Waterproof Protector",
-      title: "Perfect protection for my investment",
+      product: "KYC Update",
+      title: "Smooth KYC update",
       content:
-        "This protector is amazing! It's completely waterproof yet breathable. I have kids and pets, so spill protection was essential. It doesn't change the feel of the mattress at all, and it's easy to wash. Great quality product that does exactly what it promises.",
+        "Updated KYC and replaced the tag in one go. Process was clear and quick.",
       verified: true,
       helpful: 12,
       images: 1,
@@ -94,10 +94,10 @@ export default function ReviewsPage() {
       location: "Chennai, Tamil Nadu",
       rating: 5,
       date: "2023-12-28",
-      product: "Cortez Premium Memory Foam Mattress",
-      title: "Best sleep investment ever made",
+      product: "Recharge Assistance",
+      title: "Reliable recharge help",
       content:
-        "After months of research, I chose Cortez and it exceeded all expectations. The motion isolation is perfect - my partner's movements don't disturb my sleep at all. The edge support is excellent, and the mattress maintains its shape perfectly. The Made in India quality is impressive!",
+        "We use them regularly to assist with recharges and reversals for our drivers. Dependable service.",
       verified: true,
       helpful: 27,
       images: 2,
@@ -117,23 +117,15 @@ export default function ReviewsPage() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Shop
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-orange-600 transition-colors">
-              About
-            </Link>
-            <Link href="/reviews" className="text-orange-600 font-medium">
-              Reviews
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">
-              Contact
-            </Link>
+            <Link href="/#buy" className="text-gray-700 hover:text-orange-600 transition-colors">Buy FASTag</Link>
+            <Link href="/#recharge" className="text-gray-700 hover:text-orange-600 transition-colors">Recharge</Link>
+            <Link href="/#services" className="text-gray-700 hover:text-orange-600 transition-colors">Services</Link>
+            <Link href="/contact" className="text-gray-700 hover:text-orange-600 transition-colors">Contact</Link>
           </nav>
-          <Button className="bg-orange-600 hover:bg-orange-700 text-white">Contact Us</Button>
+          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white"><Link href="/contact">Contact Us</Link></Button>
         </div>
       </header>
 
@@ -245,31 +237,19 @@ export default function ReviewsPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+                <div className="text-2xl font-bold text-orange-500">NH360 FASTag</div>
               </div>
-              <p className="text-gray-400">A BRITEX Sleep Solution</p>
-              <p className="text-gray-400">
-                Experience better sleep with our premium mattresses and sleep accessories.
-              </p>
+              <p className="text-gray-400">FASTag Sales & Services Across India</p>
+              <p className="text-gray-400">Buy FASTag, recharge, and get 24×7 support for all issuers.</p>
             </div>
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold">Shop</h4>
+              <h4 className="text-lg font-semibold">Services</h4>
               <div className="space-y-2 text-gray-400">
-                <Link href="/shop?category=mattresses" className="block hover:text-orange-500 transition-colors">
-                  Mattresses
-                </Link>
-                <Link href="/shop?category=pillows" className="block hover:text-orange-500 transition-colors">
-                  Pillows
-                </Link>
-                <Link href="/shop?category=toppers" className="block hover:text-orange-500 transition-colors">
-                  Toppers
-                </Link>
-                <Link href="/shop?category=protectors" className="block hover:text-orange-500 transition-colors">
-                  Protectors
-                </Link>
-                <Link href="/shop?category=accessories" className="block hover:text-orange-500 transition-colors">
-                  Accessories
-                </Link>
+                <Link href="/#buy" className="block hover:text-orange-500 transition-colors">Buy FASTag</Link>
+                <Link href="/#recharge" className="block hover:text-orange-500 transition-colors">Recharge</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">KYC Update</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Blacklist Removal</Link>
+                <Link href="/#services" className="block hover:text-orange-500 transition-colors">Fleet Solutions</Link>
               </div>
             </div>
             <div className="space-y-4">
@@ -311,7 +291,7 @@ export default function ReviewsPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Cortez by BRITEX. All rights reserved.</p>
+            <p>&copy; 2025 NH360 FASTag. All rights reserved.</p>
           </div>
         </div>
       </footer>

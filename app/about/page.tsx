@@ -20,13 +20,13 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "About Cortez | 7-Layer Latex Technology & Premium Sleep Solutions",
+  title: "About NH360 FASTag | FASTag Sales & Support Across India",
   description:
-    "Learn about Cortez premium sleep products featuring revolutionary 7-layer latex technology. ISO certified, eco-friendly materials, and Made in India quality standards.",
+    "NH360 FASTag issues FASTags, provides recharge assistance, KYC updates, blacklist removal, and fleet solutions with PAN‑India coverage and 24×7 support.",
   openGraph: {
-    title: "About Cortez - Premium Sleep Technology",
-    description: "Discover our story, 7-layer latex technology, and commitment to quality sleep solutions.",
-    images: ["/images/hero-mattress.jpg"],
+    title: "About NH360 FASTag",
+    description: "Nationwide FASTag sales, recharge, and support for individuals and fleets.",
+    images: ["/placeholder.jpg"],
   },
 }
 
@@ -428,7 +428,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="text-2xl font-bold text-orange-500">Cortez</div>
+                <div className="text-2xl font-bold text-orange-500">NH360 FASTag</div>
               </div>
               <p className="text-gray-400">A BRITEX Sleep Solution</p>
               <p className="text-gray-400">

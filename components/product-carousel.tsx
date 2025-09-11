@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Star, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { useCart } from "./cart-context"
+import { FastagLeadModal } from "./fastag-lead-modal"
 import { ProductModal } from "./product-modal"
 import Link from "next/link"
 
@@ -27,14 +28,17 @@ interface ProductCarouselProps {
   products: Product[]
   title: string
   subtitle?: string
+  disableLinks?: boolean
+  leadMode?: boolean
 }
 
-export function ProductCarousel({ products, title, subtitle }: ProductCarouselProps) {
+export function ProductCarousel({ products, title, subtitle, disableLinks = false, leadMode = false }: ProductCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(4)
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
   const [isProductModalOpen, setIsProductModalOpen] = useState(false)
   const { dispatch } = useCart()
+  const [leadOpen, setLeadOpen] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,6 +78,11 @@ export function ProductCarousel({ products, title, subtitle }: ProductCarouselPr
   }
 
   const addToCart = (product: Product) => {
+    if (leadMode) {
+      setSelectedProduct(product)
+      setLeadOpen(true)
+      return
+    }
     dispatch({
       type: "ADD_ITEM",
       payload: {
@@ -122,8 +131,11 @@ export function ProductCarousel({ products, title, subtitle }: ProductCarouselPr
               <div key={product.id} className="flex-shrink-0 px-3" style={{ width: `${100 / itemsPerView}%` }}>
                 <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
-                    <Link href={`/product/${product.id}`}>
-                      <div className="relative overflow-hidden rounded-t-lg cursor-pointer">
+                    {disableLinks ? (
+                      <div
+                        className="relative overflow-hidden rounded-t-lg cursor-pointer"
+                        onClick={() => openProductModal(product)}
+                      >
                         <Image
                           src={product.image || "/placeholder.svg"}
                           alt={product.name}
@@ -131,17 +143,39 @@ export function ProductCarousel({ products, title, subtitle }: ProductCarouselPr
                           height={300}
                           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <Badge className="absolute top-4 left-4 bg-orange-600 text-white">Bestseller</Badge>
+                        <Badge className="absolute top-4 left-4 bg-orange-600 text-white">Popular</Badge>
                       </div>
-                    </Link>
+                    ) : (
+                      <Link href={`/product/${product.id}`}>
+                        <div className="relative overflow-hidden rounded-t-lg cursor-pointer">
+                          <Image
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            width={400}
+                            height={300}
+                            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <Badge className="absolute top-4 left-4 bg-orange-600 text-white">Bestseller</Badge>
+                        </div>
+                      </Link>
+                    )}
 
                     <div className="p-6 space-y-4 flex-1 flex flex-col">
                       <div className="space-y-2 flex-1">
-                        <Link href={`/product/${product.id}`}>
-                          <h3 className="font-semibold text-gray-900 line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-600 transition-colors">
+                        {disableLinks ? (
+                          <h3
+                            className="font-semibold text-gray-900 line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-600 transition-colors"
+                            onClick={() => openProductModal(product)}
+                          >
                             {product.name}
                           </h3>
-                        </Link>
+                        ) : (
+                          <Link href={`/product/${product.id}`}>
+                            <h3 className="font-semibold text-gray-900 line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-600 transition-colors">
+                              {product.name}
+                            </h3>
+                          </Link>
+                        )}
                         <p className="text-sm text-gray-600 min-h-[2.5rem] line-clamp-2">{product.description}</p>
                       </div>
 
@@ -180,16 +214,26 @@ export function ProductCarousel({ products, title, subtitle }: ProductCarouselPr
                             className="flex-1 bg-orange-600 hover:bg-orange-700 text-white h-12 text-base font-medium"
                             onClick={() => addToCart(product)}
                           >
-                            Add to Cart
+                            {leadMode ? "Enquire" : "Add to Cart"}
                           </Button>
-                          <Link href={`/product/${product.id}`}>
+                          {disableLinks ? (
                             <Button
                               variant="outline"
                               className="px-3 border-orange-600 text-orange-600 hover:bg-orange-50"
+                              onClick={() => openProductModal(product)}
                             >
-                              View
+                              Details
                             </Button>
-                          </Link>
+                          ) : (
+                            <Link href={`/product/${product.id}`}>
+                              <Button
+                                variant="outline"
+                                className="px-3 border-orange-600 text-orange-600 hover:bg-orange-50"
+                              >
+                                View
+                              </Button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -236,11 +280,8 @@ export function ProductCarousel({ products, title, subtitle }: ProductCarouselPr
         )}
       </div>
 
-      <ProductModal
-        product={selectedProduct}
-        isOpen={isProductModalOpen}
-        onClose={() => setIsProductModalOpen(false)}
-      />
+      <ProductModal product={selectedProduct} isOpen={isProductModalOpen} onClose={() => setIsProductModalOpen(false)} />
+      <FastagLeadModal open={leadOpen} onClose={() => setLeadOpen(false)} product={selectedProduct} />
     </div>
   )
 }
