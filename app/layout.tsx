@@ -3,9 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { CartProvider } from "@/components/cart-context"
-import { CartSidebar } from "@/components/cart-sidebar"
-import SaasHeader from "@/components/saas/Header"
-import SaasFooter from "@/components/saas/Footer"
+import SiteChrome from "@/components/site-chrome"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -62,12 +60,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <CartProvider>
-          <SaasHeader />
-          {/* Spacer for fixed header */}
-          <div className="h-16 md:h-20" />
-          {children}
-          <SaasFooter />
-          <CartSidebar />
+          <SiteChrome>{children}</SiteChrome>
         </CartProvider>
       </body>
     </html>

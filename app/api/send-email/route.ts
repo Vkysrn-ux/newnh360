@@ -35,13 +35,29 @@ export async function POST(req: NextRequest) {
   try {
     const { type, data } = await req.json();
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "vkysrn3@gmail.com",
-        pass: "kmasydxlgwcaelap", // App password
-      },
-    });
+    const {
+      SMTP_HOST,
+      SMTP_PORT = "587",
+      SMTP_SECURE = "false",
+      SMTP_USER,
+      SMTP_PASS,
+      SMTP_FROM = "NH360 FASTag <no-reply@nh360fastag.com>",
+      SALES_EMAIL = "sales@nh360fastag.com",
+    } = process.env as Record<string, string | undefined>
+
+    const transporter = nodemailer.createTransport(
+      SMTP_HOST
+        ? {
+            host: SMTP_HOST,
+            port: Number(SMTP_PORT),
+            secure: SMTP_SECURE === "true",
+            auth: SMTP_USER && SMTP_PASS ? { user: SMTP_USER, pass: SMTP_PASS } : undefined,
+          }
+        : {
+            service: "gmail",
+            auth: { user: SMTP_USER, pass: SMTP_PASS },
+          }
+    )
 
     await transporter.verify();
 
@@ -63,8 +79,8 @@ export async function POST(req: NextRequest) {
       `;
 
       await transporter.sendMail({
-        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
-        to: "sales@nh360fastag.com",
+        from: SMTP_FROM,
+        to: SALES_EMAIL || "sales@nh360fastag.com",
         subject: `New Order/Request from ${orderData.customerName} - #${orderData.orderId}`,
         html: salesHtml,
       });
@@ -83,7 +99,7 @@ export async function POST(req: NextRequest) {
       `;
 
       await transporter.sendMail({
-        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
+        from: SMTP_FROM,
         to: orderData.customerEmail,
         subject: `Your Request with NH360 FASTag is Confirmed (Ref #${orderData.orderId})`,
         html: customerHtml,
