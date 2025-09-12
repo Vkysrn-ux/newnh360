@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/db"
+import NewBlogForm from "./_new-blog-form"
+import AdminBlogsList from "@/components/admin/blogs-list"
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | NH360",
@@ -49,6 +51,22 @@ export default async function AdminDashboard() {
     const [rows] = await db.query("SELECT id, name, phone, city, vehicle_reg_no, product, created_at FROM leads ORDER BY created_at DESC LIMIT 100")
     localLeads = rows as any[]
   } catch {}
+
+  // Load recent blog posts for management tab
+  let adminBlogs: any[] = []
+  try {
+    const [rows] = await db.query(
+      "SELECT slug, title, excerpt, created_at FROM blogs ORDER BY created_at DESC LIMIT 100"
+    )
+    adminBlogs = rows as any[]
+  } catch {
+    try {
+      const [rows] = await db.query(
+        "SELECT slug, title, excerpt, NULL AS created_at FROM blogs LIMIT 100"
+      )
+      adminBlogs = rows as any[]
+    } catch {}
+  }
   const stats = [
     { k: "New Orders", v: "12" },
     { k: "Recharge Tickets", v: "27" },
@@ -94,6 +112,7 @@ export default async function AdminDashboard() {
                   <TabsTrigger value="recharge">Recharge</TabsTrigger>
                   <TabsTrigger value="leads">Leads</TabsTrigger>
                   <TabsTrigger value="support">Support</TabsTrigger>
+                  <TabsTrigger value="blog">Blog</TabsTrigger>
                 </TabsList>
 
                 {/* Recharge History */}
@@ -173,6 +192,24 @@ export default async function AdminDashboard() {
                         )}
                       </TableBody>
                     </Table>
+                  </div>
+                </TabsContent>
+
+                {/* Blog: Create and manage */}
+                <TabsContent value="blog">
+                  <div className="space-y-6">
+                    <NewBlogForm />
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-white">Manage Posts</h3>
+                      <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white">
+                        <Link href="/admin/blogs/new">New Post</Link>
+                      </Button>
+                    </div>
+                    {adminBlogs.length === 0 ? (
+                      <div className="text-gray-400">No posts yet.</div>
+                    ) : (
+                      <AdminBlogsList posts={adminBlogs as any} />
+                    )}
                   </div>
                 </TabsContent>
 

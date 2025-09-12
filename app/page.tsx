@@ -3,6 +3,8 @@ import Link from "next/link"
 import { HeroCarousel } from "@/components/hero-carousel"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { CardSpotlight } from "@/components/ui/card-spotlight"
+import BlogCarousel from "@/components/blog-carousel"
 import {
   Accordion,
   AccordionItem,
@@ -26,10 +28,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-6 text-center">
             {[{ k: "FASTags Issued", v: "5,000+" }, { k: "Recharge Assisted", v: "10,000+" }, { k: "Fleets Served", v: "900+" }].map((s) => (
-              <div key={s.k} className="rounded-xl bg-neutral-950 border border-orange-900 p-6">
+              <CardSpotlight key={s.k}>
                 <div className="text-3xl font-extrabold text-white">{s.v}</div>
                 <div className="text-sm text-gray-400">{s.k}</div>
-              </div>
+              </CardSpotlight>
             ))}
           </div>
 
@@ -183,20 +185,7 @@ export default function HomePage() {
             <h2 className="text-2xl md:text-3xl font-extrabold text-white">From the blog</h2>
             <Link href="/blog" className="text-orange-400 hover:text-orange-300 text-sm">View all</Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { slug: "fastag-basics", title: "FASTag Basics: How It Works", excerpt: "Understand FASTag, KYC, and toll processing.", date: "2025-01-10" },
-              { slug: "issuer-recharge", title: "Recharge Across Issuers", excerpt: "Tips to recharge any bank’s FASTag without issues.", date: "2025-01-08" },
-              { slug: "blacklist-fixes", title: "Fixing Blacklist Quickly", excerpt: "Common causes and quick resolution steps.", date: "2025-01-05" },
-            ].map((p) => (
-              <article key={p.slug} className="rounded-xl border border-orange-900 bg-neutral-900 p-6">
-                <div className="text-xs text-gray-500 mb-2">{new Date(p.date).toLocaleDateString()}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">{p.title}</h3>
-                <p className="text-gray-400 text-sm mb-4">{p.excerpt}</p>
-                <Link href="/blog" className="text-orange-400 hover:text-orange-300 text-sm">Read more →</Link>
-              </article>
-            ))}
-          </div>
+          <BlogCarousel />
         </div>
       </section>
 
