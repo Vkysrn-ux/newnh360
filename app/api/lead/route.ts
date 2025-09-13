@@ -9,12 +9,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { name, phone, place, vehicleRegNo, product, notes } = body || {}
 
-    if (!name || !phone) {
+    const digits = String(phone || "").replace(/\D/g, "")
+    const phone10 = digits.slice(-10)
+    const validPhone = /^[6-9][0-9]{9}$/.test(phone10)
+
+    if (!name || !validPhone) {
       return NextResponse.json(
-        { success: false, message: "Name and phone are required" },
+        { success: false, message: "Valid name and 10-digit mobile number are required" },
         { status: 400 }
       )
     }
+    const phoneNormalized = phone10
 
     // 1) Save lead locally (non-fatal if fails)
     try {
@@ -36,7 +41,7 @@ export async function POST(req: NextRequest) {
 
       await db.query(
         `INSERT INTO leads (name, phone, city, vehicle_reg_no, product, notes) VALUES (?, ?, ?, ?, ?, ?)`,
-        [name, phone, place ?? null, vehicleRegNo ?? null, product ?? null, notes ?? null]
+        [name, phoneNormalized, place ?? null, vehicleRegNo ?? null, product ?? null, notes ?? null]
       )
     } catch (e) {
       console.warn("lead: local save failed", e)
@@ -50,7 +55,7 @@ export async function POST(req: NextRequest) {
 
       const payload = {
         subject: product || "New FASTag",
-        phone,
+        phone: phoneNormalized,
         customer_name: name,
         details: `Lead from website${place ? `, Place: ${place}` : ""}${vehicleRegNo ? `, Vehicle Reg No: ${vehicleRegNo}` : ""}${notes ? `, Notes: ${notes}` : ""}`,
         lead_received_from: "website",
@@ -120,7 +125,7 @@ export async function POST(req: NextRequest) {
         const html = `
           <h2>New FASTag Lead</h2>
           <p><b>Name:</b> ${name}</p>
-          <p><b>Phone:</b> ${phone}</p>
+          <p><b>Phone:</b> ${phoneNormalized}</p>
           ${place ? `<p><b>City/Place:</b> ${place}</p>` : ""}
           ${vehicleRegNo ? `<p><b>Vehicle Reg No:</b> ${vehicleRegNo}</p>` : ""}
           ${product ? `<p><b>Product:</b> ${product}</p>` : ""}
@@ -150,7 +155,7 @@ export async function POST(req: NextRequest) {
       const text = [
         `New FASTag Lead`,
         `Name: ${name}`,
-        `Phone: ${phone}`,
+        `Phone: ${phoneNormalized}`,
         place ? `Place: ${place}` : null,
         vehicleRegNo ? `Vehicle: ${vehicleRegNo}` : null,
         product ? `Product: ${product}` : null,
