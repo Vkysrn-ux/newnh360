@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         subject: product || "New FASTag",
         phone: phoneNormalized,
         customer_name: name,
-        details: `Lead from website${place ? `, Place: ${place}` : ""}${vehicleRegNo ? `, Vehicle Reg No: ${vehicleRegNo}` : ""}${notes ? `, Notes: ${notes}` : ""}`,
+        details: `Lead from website${product ? `, Product: ${product}` : ""}${place ? `, Place: ${place}` : ""}${vehicleRegNo ? `, Vehicle Reg No: ${vehicleRegNo}` : ""}${notes ? `, Notes: ${notes}` : ""}`,
         lead_received_from: "website",
         status: "waiting",
         kyv_status: "kyv_pending_approval",

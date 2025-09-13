@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import LeadForm from "./lead-form"
+import FastagProductPicker from "./product-picker"
 
 export const metadata: Metadata = {
   title: "Buy FASTag | NH360 FASTag",
@@ -32,7 +33,7 @@ export default function BuyPage() {
               ))}
             </ul>
           </div>
-          <LeadForm product="Buy FASTag" />
+          <FastagProductPicker />
         </div>
       </section>
     </div>
