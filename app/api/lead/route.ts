@@ -121,8 +121,8 @@ export async function POST(req: NextRequest) {
           <h2>New FASTag Lead</h2>
           <p><b>Name:</b> ${name}</p>
           <p><b>Phone:</b> ${phone}</p>
-          ${city ? `<p><b>City:</b> ${city}</p>` : ""}
-          ${vehicleType ? `<p><b>Vehicle Type:</b> ${vehicleType}</p>` : ""}
+          ${place ? `<p><b>City/Place:</b> ${place}</p>` : ""}
+          ${vehicleRegNo ? `<p><b>Vehicle Reg No:</b> ${vehicleRegNo}</p>` : ""}
           ${product ? `<p><b>Product:</b> ${product}</p>` : ""}
           ${notes ? `<p><b>Notes:</b> ${notes}</p>` : ""}
           <p>— NH360 FASTag website</p>
@@ -139,6 +139,102 @@ export async function POST(req: NextRequest) {
       }
     } catch (mailErr) {
       console.warn("lead: email send failed", mailErr)
+    }
+
+    // 4) WhatsApp notification (optional: Meta Cloud API or Twilio)
+    try {
+      const env = process.env as Record<string, string | undefined>
+      const provider = (env.WHATSAPP_PROVIDER || "meta").toLowerCase() // "meta" or "twilio"
+      const to = env.WHATSAPP_TO // E.g., "+91XXXXXXXXXX"
+
+      const text = [
+        `New FASTag Lead`,
+        `Name: ${name}`,
+        `Phone: ${phone}`,
+        place ? `Place: ${place}` : null,
+        vehicleRegNo ? `Vehicle: ${vehicleRegNo}` : null,
+        product ? `Product: ${product}` : null,
+        notes ? `Notes: ${notes}` : null,
+      ].filter(Boolean).join("\n")
+
+      if (to) {
+        if (provider === "twilio") {
+          const sid = env.TWILIO_SID
+          const auth = env.TWILIO_AUTH_TOKEN
+          const from = env.TWILIO_WHATSAPP_FROM // e.g., "whatsapp:+14155238886"
+          if (sid && auth && from) {
+            const url = `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`
+            const body = new URLSearchParams({
+              From: from.startsWith("whatsapp:") ? from : `whatsapp:${from}`,
+              To: to.startsWith("whatsapp:") ? to : `whatsapp:${to}`,
+              Body: text,
+            })
+            const res = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: "Basic " + Buffer.from(`${sid}:${auth}`).toString("base64"),
+              },
+              body: body.toString(),
+            })
+            if (!res.ok) {
+              const t = await res.text().catch(() => "")
+              console.warn("lead: twilio whatsapp failed", res.status, t.slice(0, 180))
+            }
+          } else {
+            console.info("lead: Twilio WhatsApp env missing; skipping")
+          }
+        } else {
+          // Meta WhatsApp Cloud API
+          const token = env.WHATSAPP_TOKEN
+          const phoneId = env.WHATSAPP_PHONE_ID
+          if (token && phoneId) {
+            const url = `https://graph.facebook.com/v17.0/${phoneId}/messages`
+            const template = env.WHATSAPP_TEMPLATE
+            const lang = env.WHATSAPP_TEMPLATE_LANG || "en_US"
+            const payload = template
+              ? {
+                  messaging_product: "whatsapp",
+                  to,
+                  type: "template",
+                  template: {
+                    name: template,
+                    language: { code: lang },
+                    components: [
+                      {
+                        type: "body",
+                        parameters: [{ type: "text", text }],
+                      },
+                    ],
+                  },
+                }
+              : {
+                  messaging_product: "whatsapp",
+                  to,
+                  type: "text",
+                  text: { body: text },
+                }
+            const res = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            })
+            if (!res.ok) {
+              const t = await res.text().catch(() => "")
+              console.warn("lead: meta whatsapp failed", res.status, t.slice(0, 180))
+            }
+          } else {
+            console.info("lead: Meta WhatsApp env missing; skipping")
+          }
+        }
+      } else {
+        console.info("lead: WHATSAPP_TO not set; skipping WhatsApp notify")
+      }
+    } catch (waErr) {
+      console.warn("lead: whatsapp notify failed", waErr)
     }
 
     return NextResponse.json({
