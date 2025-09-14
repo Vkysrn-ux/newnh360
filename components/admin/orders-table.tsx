@@ -69,7 +69,17 @@ export default function AdminOrdersTable({ orders }: { orders: Order[] }) {
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(data?.error || 'Failed to update')
+      if (data?.shiprocketError) {
+        setErr(`Shiprocket: ${data.shiprocketError}`)
+      }
       router.refresh()
+      if (selectedId === id) {
+        try {
+          const r2 = await fetch(`/api/orders/${id}`, { cache: 'no-store' })
+          const d2 = await r2.json()
+          if (r2.ok) setDetail(d2)
+        } catch {}
+      }
     } catch (e: any) {
       setErr(e.message)
     } finally {
@@ -132,7 +142,8 @@ export default function AdminOrdersTable({ orders }: { orders: Order[] }) {
                 </TableCell>
                 <TableCell>
                   <select
-                    defaultValue={o.shipping_provider || 'unassigned'}
+                    id={`provider-${o.id}`}
+                    defaultValue={(o.shipping_provider || 'unassigned').toLowerCase()}
                     className="bg-neutral-950 border border-orange-900 rounded px-2 py-1 text-sm"
                     onChange={(e) => update(o.id, undefined, e.target.value)}
                     disabled={busyId === o.id}
@@ -147,7 +158,10 @@ export default function AdminOrdersTable({ orders }: { orders: Order[] }) {
                   <Button
                     variant="outline"
                     className="border-orange-700 text-orange-400 hover:bg-orange-900/30"
-                    onClick={() => update(o.id, 'processing', o.shipping_provider)}
+                    onClick={() => {
+                      const sel = (document.getElementById(`provider-${o.id}`) as HTMLSelectElement | null)?.value
+                      update(o.id, 'processing', sel || o.shipping_provider)
+                    }}
                     disabled={busyId === o.id}
                   >
                     {busyId === o.id ? 'Saving…' : 'Save'}
@@ -213,6 +227,18 @@ export default function AdminOrdersTable({ orders }: { orders: Order[] }) {
                   <div className="text-sm space-y-1">
                     <div className="text-gray-400">Shipment ID</div>
                     <div className="text-white">{detail.shipping_shipment_id}</div>
+                    {detail.shipping_awb && (
+                      <>
+                        <div className="text-gray-400">AWB</div>
+                        <div className="text-white">{detail.shipping_awb}</div>
+                      </>
+                    )}
+                    {detail.shipping_tracking_url && (
+                      <>
+                        <div className="text-gray-400">Tracking</div>
+                        <a className="text-orange-400 hover:text-orange-300" href={detail.shipping_tracking_url} target="_blank" rel="noreferrer">Open tracking</a>
+                      </>
+                    )}
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">

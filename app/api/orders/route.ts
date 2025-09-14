@@ -1,6 +1,7 @@
 // app/api/orders/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
+import { Shiprocket } from "@/lib/shiprocket"
 
 export async function GET() {
   try {
@@ -60,17 +61,84 @@ export async function PATCH(req: Request) {
     if (!id && typeof id !== 'number') {
       return NextResponse.json({ error: "Missing id" }, { status: 400 })
     }
+    // Ensure shipping columns exist for status/provider updates
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_shipment_id VARCHAR(64) NULL") } catch {}
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_awb VARCHAR(64) NULL") } catch {}
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_label_url VARCHAR(1024) NULL") } catch {}
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_manifest_url VARCHAR(1024) NULL") } catch {}
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_tracking_url VARCHAR(1024) NULL") } catch {}
+    try { await db.query("ALTER TABLE orders ADD COLUMN shipping_courier VARCHAR(128) NULL") } catch {}
+
     const fields: string[] = []
     const values: any[] = []
     if (typeof newStatus === 'string') { fields.push("status = ?"); values.push(newStatus) }
-    if (typeof provider === 'string') { fields.push("shipping_provider = ?"); values.push(provider) }
+    if (typeof provider === 'string') { fields.push("shipping_provider = ?"); values.push(String(provider).toLowerCase()) }
     if (fields.length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 })
     }
     values.push(id)
     await db.query(`UPDATE orders SET ${fields.join(', ')} WHERE id = ?`, values)
 
-    return NextResponse.json({ success: true })
+    // Auto-create Shiprocket shipment when provider becomes shiprocket, or if status updated while already set.
+    let created: any = null
+    let shipErr: string | null = null
+    try {
+      const [rows] = await db.query("SELECT * FROM orders WHERE id = ? LIMIT 1", [id])
+      const list = rows as any[]
+      const o = list?.[0]
+      if (o && String(o.shipping_provider).toLowerCase() === 'shiprocket' && !o.shipping_shipment_id) {
+        const [iRows] = await db.query("SELECT name, quantity, price FROM order_items WHERE orderId = ?", [id])
+        const items = (iRows as any[]) || []
+        const payload: any = {
+          order_id: o.orderId,
+          order_date: new Date(o.orderDate || Date.now()).toISOString(),
+          billing_customer_name: String(o.customerName || '').slice(0, 40),
+          billing_address: String(o.address || '').slice(0, 200),
+          billing_city: o.city || '',
+          billing_pincode: o.pincode || '',
+          billing_state: o.state || '',
+          billing_email: o.customerEmail || 'na@example.com',
+          billing_phone: o.phone || '0000000000',
+          payment_method: (o.payment_method === 'COD' ? 'COD' : 'Prepaid') as 'Prepaid' | 'COD',
+          sub_total: Number(o.totalAmount || 0),
+          length: 10,
+          breadth: 10,
+          height: 2,
+          weight: 0.5,
+          order_items: items.map((it) => ({ name: it.name || 'Item', units: Number(it.quantity) || 1, selling_price: Number(it.price) || 0 })),
+        }
+        if (payload.payment_method === 'COD') payload.collectable_amount = Number(o.totalAmount || 0)
+        created = await Shiprocket.createOrder(payload)
+        let shipment_id = created?.shipment_id || created?.data?.shipment_id || null
+        // Attempt AWB assignment if not present
+        if (shipment_id && !(created?.awb_code || created?.data?.awb_code)) {
+          try {
+            const awbResp = await Shiprocket.assignAWB(Number(shipment_id))
+            // Some responses wrap data differently
+            const awbCode = awbResp?.response?.data?.awb_code || awbResp?.data?.awb_code || awbResp?.awb_code || null
+            if (awbCode) {
+              created.awb_code = awbCode
+            }
+          } catch (e) {
+            console.warn('shiprocket awb assign failed', e)
+          }
+        }
+        const awb = created?.awb_code || created?.data?.awb_code || null
+        const label = created?.label_url || created?.data?.label_url || null
+        const manifest = created?.manifest_url || created?.data?.manifest_url || null
+        const tracking = created?.tracking_url || created?.data?.tracking_url || (awb ? `https://shiprocket.co/tracking/${awb}` : null)
+        const courier = created?.courier_company || created?.data?.courier_company || null
+        await db.query(
+          "UPDATE orders SET status = 'processing', shipping_shipment_id = ?, shipping_awb = ?, shipping_label_url = ?, shipping_manifest_url = ?, shipping_tracking_url = ?, shipping_courier = ? WHERE id = ?",
+          [shipment_id, awb, label, manifest, tracking, courier, id]
+        )
+      }
+    } catch (e: any) {
+      shipErr = e?.message || String(e)
+      console.warn('shiprocket auto-create failed', e)
+    }
+
+    return NextResponse.json({ success: true, shiprocket: created ? { shipment_id: created?.shipment_id || created?.data?.shipment_id || null, awb: created?.awb_code || created?.data?.awb_code || null } : null, shiprocketError: shipErr })
   } catch (error) {
     console.error("Error updating order status:", error)
     return NextResponse.json({ error: "Failed to update order status" }, { status: 500 })
