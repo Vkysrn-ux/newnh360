@@ -492,7 +492,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 <div className="space-y-4">
                   <CheckCircle className="h-20 w-20 text-green-600 mx-auto" />
                   <h3 className="text-2xl font-bold text-gray-900">Order Placed Successfully!</h3>
-                  <p className="text-gray-600">Thank you for choosing Cortez. Your order has been confirmed.</p>
+              <p className="text-gray-600">Thank you for choosing NH360 FASTag. Your request has been confirmed.</p>
 
                   {/* Email Status */}
                   {emailStatus === "sending" && (
@@ -534,7 +534,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   <div className="space-y-3 text-sm text-orange-800">
                     <div className="flex items-center space-x-3">
                       <Package className="h-5 w-5 text-orange-600" />
-                      <span>Your order will be processed within 24 hours</span>
+                      <span>Your request will be processed within 24 hours</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-orange-600" />
@@ -553,7 +553,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     <div className="flex items-center justify-center space-x-2">
                       <Mail className="h-4 w-4 text-orange-600" />
                       <span>
-                        <strong>Email:</strong> karan@britexcbe.com
+                        <strong>Email:</strong> support@nh360fastag.com
                       </span>
                     </div>
                     <div className="flex items-center justify-center space-x-2">

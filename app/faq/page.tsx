@@ -36,8 +36,8 @@ export default function FAQPage() {
       icon: <Package className="h-6 w-6" />,
       questions: [
         {
-          question: "What makes Cortez mattresses different from others?",
-          answer: "Our mattresses feature revolutionary 7-layer latex technology with zone-based support, cooling gel infusion, and anti-microbial treatment. Each layer is designed for optimal comfort, temperature regulation, and durability.",
+          question: "What makes our services different?",
+          answer: "We offer end‑to‑end FASTag assistance — issuance, recharge, KYC, blacklist removal and fleet support — with quick response and PAN‑India coverage.",
         },
         {
           question: "What sizes are available for your mattresses?",
@@ -125,7 +125,7 @@ export default function FAQPage() {
       questions: [
         {
           question: "How can I contact customer support?",
-          answer: "Call us at +91-9894517926, email karan@britexcbe.com, or use our contact form. We're available Mon-Sat, 9 AM - 7 PM IST.",
+          answer: "Call us at 8667460935 or 8667460635, email support@nh360fastag.com, or use our contact form. We're available Mon-Sat, 9 AM - 7 PM IST.",
         },
         {
           question: "Do you offer installation support?",

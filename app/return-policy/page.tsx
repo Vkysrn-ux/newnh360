@@ -35,8 +35,8 @@ export const metadata: Metadata = {
 export default function ReturnPolicyPage() {
   const lastUpdated = "January 15, 2025"
   const contactInfo = {
-    phone: "+91-9894517926",
-    email: "karan@britexcbe.com",
+    phone: "8667460935 / 8667460635",
+    email: "support@nh360fastag.com",
     address: "54RC+F3, Kakapalayam, Paduvampalli, Tamil Nadu 641659",
   }
 
@@ -156,7 +156,7 @@ export default function ReturnPolicyPage() {
     },
     {
       question: "How do I initiate a return?",
-      answer: "Simply call us at +91-9894517926 or email karan@britexcbe.com within 100 days of delivery. Our customer service team will guide you through the process.",
+      answer: "Call 8667460935 / 8667460635 or email support@nh360fastag.com within 100 days of delivery. Our customer service team will guide you through the process.",
     },
     {
       question: "What happens to the returned mattress?",

@@ -525,7 +525,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
             <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">

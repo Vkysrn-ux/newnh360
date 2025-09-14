@@ -22,13 +22,13 @@ export default function ContactPage() {
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Phone",
-      details: ["+91-9894517926"],
+      details: ["8667460935", "8667460635"],
       description: "Mon-Sat, 9 AM - 7 PM",
     },
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email",
-      details: ["karan@britexcbe.com", "sudha@britexcbe.com"],
+      details: ["support@nh360fastag.com"],
       description: "We'll respond within 24 hours",
     },
     {
@@ -175,14 +175,14 @@ export default function ContactPage() {
                         <Phone className="h-5 w-5 text-orange-600" />
                         <div>
                           <p className="font-medium text-gray-900">Call Us Directly</p>
-                          <p className="text-sm text-gray-600">+91-9894517926</p>
+                          <p className="text-sm text-gray-600">8667460935 / 8667460635</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Mail className="h-5 w-5 text-orange-600" />
                         <div>
                           <p className="font-medium text-gray-900">Email Support</p>
-                          <p className="text-sm text-gray-600">karan@britexcbe.com</p>
+                          <p className="text-sm text-gray-600">support@nh360fastag.com</p>
                         </div>
                       </div>
                     </div>

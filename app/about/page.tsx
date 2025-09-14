@@ -173,7 +173,7 @@ export default function AboutPage() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-orange-600">Cortez</div>
+            <div className="text-2xl font-bold text-orange-600">NH360 FASTag</div>
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
             <Link href="/shop" className="text-gray-700 hover:text-orange-600 transition-colors">
@@ -199,9 +199,9 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">A BRITEX Sleep Solution</Badge>
+                <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100">About Us</Badge>
                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  About <span className="text-orange-600">Cortez</span>
+                  About <span className="text-orange-600">NH360 FASTag</span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Since our inception, Cortez has been committed to revolutionizing sleep comfort through innovative
@@ -213,7 +213,7 @@ export default function AboutPage() {
             <div className="relative">
               <Image
                 src="/images/hero-mattress.jpg"
-                alt="Cortez Manufacturing"
+                alt="NH360 FASTag"
                 width={600}
                 height={400}
                 className="rounded-2xl shadow-2xl"
@@ -229,15 +229,12 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Our Story</h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              Founded as part of the BRITEX family, Cortez emerged from a simple yet powerful vision: to create sleep
-              products that combine traditional craftsmanship with modern technology. Our journey began with extensive
-              research into sleep science and materials engineering, leading us to develop our signature 7-layer latex
-              construction that has become the gold standard in premium sleep comfort.
+              Our mission is to make highway payments seamless and hassle‑free. From individual motorists to large
+              fleets, we help customers get and manage FASTags with the right guidance and support.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed">
-              Today, Cortez stands as a testament to Indian manufacturing excellence, proudly serving thousands of
-              customers across the nation with products that meet international quality standards while being perfectly
-              suited for Indian homes and preferences.
+              NH360 FASTag serves customers across India with reliable service, transparent pricing, and responsive
+              support.
             </p>
           </div>
         </div>

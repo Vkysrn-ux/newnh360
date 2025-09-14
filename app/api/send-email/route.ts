@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         <p><b>Payment Method:</b> ${orderData.paymentMethod === 'COD' ? 'Cash on Delivery (COD) - Pay on delivery' : 'Paid (Prepaid)'}</p>
         <p><b>Shipping Address:</b> ${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.pincode}</p>
         <p>We’ll update you when your order ships.</p>
-        <p>Contact support@britexcbe.com if needed.</p>
+        <p>Contact support@nh360fastag.com if needed.</p>
       `;
 
       await transporter.sendMail({
@@ -131,12 +131,12 @@ export async function POST(req: NextRequest) {
       }
 
       html += `
-        <br/><p>For help, contact support@britexcbe.com.</p>
+        <br/><p>For help, contact support@nh360fastag.com.</p>
         <p>— NH360 FASTag</p>
       `;
 
       await transporter.sendMail({
-        from: `"NH360 FASTag" <vkysrn3@gmail.com>`,
+        from: SMTP_FROM,
         to: customerEmail,
         subject: `Request #${orderId} - Status Updated to ${newStatus}`,
         html,
