@@ -41,6 +41,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [orderId, setOrderId] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle")
+  const [paymentMethod, setPaymentMethod] = useState<"Prepaid" | "COD">("Prepaid")
 
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0)
   const totalPrice = state.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -49,50 +50,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const shippingCost = 0 // Free shipping
   const finalTotal = totalPrice + shippingCost
 
-  // Serviceable pincodes (in real app, this would be an API call)
-  const serviceablePincodes = [
-    "110001",
-    "110002",
-    "110003",
-    "110004",
-    "110005", // Delhi
-    "400001",
-    "400002",
-    "400003",
-    "400004",
-    "400005", // Mumbai
-    "560001",
-    "560002",
-    "560003",
-    "560004",
-    "560005", // Bangalore
-    "600001",
-    "600002",
-    "600003",
-    "600004",
-    "600005", // Chennai
-    "700001",
-    "700002",
-    "700003",
-    "700004",
-    "700005", // Kolkata
-    "500001",
-    "500002",
-    "500003",
-    "500004",
-    "500005", // Hyderabad
-    "411001",
-    "411002",
-    "411003",
-    "411004",
-    "411005", // Pune
-    "380001",
-    "380002",
-    "380003",
-    "380004",
-    "380005", // Ahmedabad
-    "641659", // Paduvampalli (Company location)
-  ]
+  // Accept all valid Indian pincodes (6 digits, cannot start with 0)
+  const isIndianPincode = (code: string) => /^[1-9]\d{5}$/.test(code)
 
   const formatPrice = (price: number) => {
     return `₹${price.toLocaleString()}`
@@ -111,8 +70,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       return false
     }
 
-    if (!serviceablePincodes.includes(code)) {
-      setPincodeError("Sorry, we don't deliver to this pincode yet. Please contact us for special arrangements.")
+    if (!isIndianPincode(code)) {
+      setPincodeError("Enter a valid 6-digit Indian pincode")
       setPincodeValid(false)
       return false
     }
@@ -158,9 +117,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     setIsSubmitting(true)
     setEmailStatus("sending")
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
     const newOrderId = generateOrderId()
     setOrderId(newOrderId)
 
@@ -170,6 +126,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       customerName: customerDetails.name,
       customerEmail: customerDetails.email,
       phone: customerDetails.phone,
+      paymentMethod,
       totalAmount: finalTotal,
       items: state.items.map((item) => ({
         name: item.name,
@@ -181,6 +138,17 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       state: customerDetails.state,
       pincode: customerDetails.pincode,
       orderDate: new Date().toISOString(),
+    }
+
+    // Persist order for Admin dashboard
+    try {
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderDetails),
+      })
+    } catch (e) {
+      console.warn('order persist failed', e)
     }
 
     // Send notification to sales team
@@ -323,13 +291,13 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
                 {/* Serviceable Areas Info */}
                 <div className="bg-orange-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-orange-900 mb-2">We Currently Deliver To:</h4>
+                  <h4 className="font-medium text-orange-900 mb-2">We Deliver Across India</h4>
                   <p className="text-orange-800 text-sm">
                     Delhi, Mumbai, Bangalore, Chennai, Kolkata, Hyderabad, Pune, Ahmedabad, and Paduvampalli (Tamil
-                    Nadu)
+                    Nadu). Plus, all other locations — we support all valid 6‑digit Indian pincodes.
                   </p>
                   <p className="text-orange-700 text-xs mt-2">
-                    Don't see your area? Contact us at +91-9894517926 for special delivery arrangements.
+                    Don’t see your area listed? We still deliver — enter your pincode above.
                   </p>
                 </div>
               </div>
@@ -339,8 +307,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Customer Details Form */}
                 <div className="space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Customer Information</h3>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Customer Information</h3>
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 flex items-center">
@@ -384,10 +352,10 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         maxLength={10}
                       />
                     </div>
-                  </div>
+            </div>
 
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Delivery Address</h3>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Delivery Address</h3>
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 flex items-center">
@@ -457,13 +425,37 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         </div>
                       </div>
                     ))}
-                  </div>
+              </div>
 
-                  <div className="space-y-3 border-t border-gray-200 pt-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Subtotal ({totalItems} items)</span>
-                      <span className="text-gray-900">{formatPrice(totalPrice)}</span>
-                    </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-900">Payment Method</h4>
+                <div className="flex items-center gap-4 text-sm">
+                  <label className="inline-flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="pay"
+                      checked={paymentMethod === "Prepaid"}
+                      onChange={() => setPaymentMethod("Prepaid")}
+                    />
+                    <span>Prepaid (Paid)</span>
+                  </label>
+                  <label className="inline-flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="pay"
+                      checked={paymentMethod === "COD"}
+                      onChange={() => setPaymentMethod("COD")}
+                    />
+                    <span>Cash on Delivery (COD)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="space-y-3 border-t border-gray-200 pt-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Subtotal ({totalItems} items)</span>
+                  <span className="text-gray-900">{formatPrice(totalPrice)}</span>
+                </div>
                     {savings > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-green-600">You save</span>
@@ -474,11 +466,11 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <span className="text-gray-600">Shipping</span>
                       <span className="text-green-600 font-medium">FREE</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold border-t border-gray-200 pt-3">
-                      <span>Total</span>
-                      <span className="text-orange-600">{formatPrice(finalTotal)}</span>
-                    </div>
-                  </div>
+                <div className="flex justify-between text-lg font-bold border-t border-gray-200 pt-3">
+                  <span>Total {paymentMethod === 'Prepaid' ? '(Paid)' : '(COD)'}</span>
+                  <span className="text-orange-600">{formatPrice(finalTotal)}</span>
+                </div>
+              </div>
 
                   <Button
                     className="w-full bg-orange-600 hover:bg-orange-700 text-white h-12 text-lg font-semibold"
@@ -558,12 +550,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 <div className="bg-gray-50 p-6 rounded-lg space-y-4">
                   <h4 className="text-lg font-semibold text-gray-900">Need Help?</h4>
                   <div className="space-y-2 text-sm text-gray-700">
-                    <div className="flex items-center justify-center space-x-2">
-                      <Phone className="h-4 w-4 text-orange-600" />
-                      <span>
-                        <strong>Call:</strong> +91-9894517926
-                      </span>
-                    </div>
                     <div className="flex items-center justify-center space-x-2">
                       <Mail className="h-4 w-4 text-orange-600" />
                       <span>

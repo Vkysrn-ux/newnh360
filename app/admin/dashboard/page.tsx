@@ -7,11 +7,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { db } from "@/lib/db"
 import NewBlogForm from "./_new-blog-form"
 import AdminBlogsList from "@/components/admin/blogs-list"
+import AdminOrdersTable from "@/components/admin/orders-table"
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | NH360",
   robots: { index: false, follow: false },
 }
+
+export const dynamic = "force-dynamic"
 
 export default async function AdminDashboard() {
   // Fetch tickets from external system (no-store for live view)
@@ -67,6 +70,31 @@ export default async function AdminDashboard() {
       adminBlogs = rows as any[]
     } catch {}
   }
+  // Load orders for Orders tab
+  let orders: any[] = []
+  try {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        orderId VARCHAR(64) UNIQUE,
+        customerName VARCHAR(255),
+        customerEmail VARCHAR(255),
+        phone VARCHAR(32),
+        address TEXT,
+        city VARCHAR(128),
+        state VARCHAR(128),
+        pincode VARCHAR(16),
+        totalAmount INT,
+        status VARCHAR(32) DEFAULT 'new',
+        shipping_provider VARCHAR(32) DEFAULT 'unassigned',
+        orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `)
+    const [rows] = await db.query(
+      "SELECT id, orderId, customerName, customerEmail, phone, totalAmount, status, shipping_provider, orderDate FROM orders ORDER BY orderDate DESC LIMIT 200"
+    )
+    orders = rows as any[]
+  } catch {}
   const stats = [
     { k: "New Orders", v: "12" },
     { k: "Recharge Tickets", v: "27" },
@@ -110,6 +138,7 @@ export default async function AdminDashboard() {
               <Tabs defaultValue="recharge" className="w-full">
                 <TabsList className="bg-black text-gray-300">
                   <TabsTrigger value="recharge">Recharge</TabsTrigger>
+                  <TabsTrigger value="orders">Orders</TabsTrigger>
                   <TabsTrigger value="leads">Leads</TabsTrigger>
                   <TabsTrigger value="support">Support</TabsTrigger>
                   <TabsTrigger value="blog">Blog</TabsTrigger>
@@ -193,6 +222,11 @@ export default async function AdminDashboard() {
                       </TableBody>
                     </Table>
                   </div>
+                </TabsContent>
+
+                {/* Orders */}
+                <TabsContent value="orders">
+                  <AdminOrdersTable orders={orders as any} />
                 </TabsContent>
 
                 {/* Blog: Create and manage */}

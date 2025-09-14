@@ -30,9 +30,11 @@ interface ProductCarouselProps {
   subtitle?: string
   disableLinks?: boolean
   leadMode?: boolean
+  dark?: boolean
+  showDots?: boolean
 }
 
-export function ProductCarousel({ products, title, subtitle, disableLinks = false, leadMode = false }: ProductCarouselProps) {
+export function ProductCarousel({ products, title, subtitle, disableLinks = false, leadMode = false, dark = false, showDots = false }: ProductCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [itemsPerView, setItemsPerView] = useState(4)
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
@@ -115,8 +117,8 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
   return (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">{title}</h2>
-        {subtitle && <p className="text-xl text-gray-600">{subtitle}</p>}
+        <h2 className={`text-3xl lg:text-4xl font-bold ${dark ? "text-white" : "text-gray-900"}`}>{title}</h2>
+        {subtitle && <p className={`text-xl ${dark ? "text-gray-400" : "text-gray-600"}`}>{subtitle}</p>}
       </div>
 
       <div className="relative">
@@ -129,7 +131,7 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
           >
             {products.map((product) => (
               <div key={product.id} className="flex-shrink-0 px-3" style={{ width: `${100 / itemsPerView}%` }}>
-                <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg h-full">
+                <Card className="group hover:shadow-xl transition-all duration-300 border border-orange-900 bg-neutral-900 text-gray-200 h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     {disableLinks ? (
                       <div
@@ -164,19 +166,19 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
                       <div className="space-y-2 flex-1">
                         {disableLinks ? (
                           <h3
-                            className="font-semibold text-gray-900 line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-600 transition-colors"
+                            className="font-semibold text-white line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-400 transition-colors"
                             onClick={() => openProductModal(product)}
                           >
                             {product.name}
                           </h3>
                         ) : (
                           <Link href={`/product/${product.id}`}>
-                            <h3 className="font-semibold text-gray-900 line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-600 transition-colors">
+                            <h3 className="font-semibold text-white line-clamp-2 min-h-[3rem] cursor-pointer hover:text-orange-400 transition-colors">
                               {product.name}
                             </h3>
                           </Link>
                         )}
-                        <p className="text-sm text-gray-600 min-h-[2.5rem] line-clamp-2">{product.description}</p>
+                        <p className="text-sm text-white/60 min-h-[2.5rem] line-clamp-2">{product.description}</p>
                       </div>
 
                       {product.features && (
@@ -200,12 +202,12 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-gray-600">({product.reviews})</span>
+                        <span className="text-sm text-white/60">({product.reviews})</span>
                       </div>
 
                       <div className="flex items-center space-x-2 min-h-[2rem]">
-                        <span className="text-2xl font-bold text-gray-900">{product.price}</span>
-                        <span className="text-lg text-gray-500 line-through">{product.originalPrice}</span>
+                        <span className="text-2xl font-bold text-white">{product.price}</span>
+                        <span className="text-lg text-white/50 line-through">{product.originalPrice}</span>
                       </div>
 
                       <div className="pt-2">
@@ -217,25 +219,25 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
                             {leadMode ? "Enquire" : "Add to Cart"}
                           </Button>
                           {disableLinks ? (
+                          <Button
+                            variant="outline"
+                            className="px-3 border-orange-600 text-orange-600 hover:bg-orange-50"
+                            onClick={() => openProductModal(product)}
+                          >
+                            Buy Now
+                          </Button>
+                        ) : (
+                          <Link href={`/product/${product.id}`}>
                             <Button
                               variant="outline"
                               className="px-3 border-orange-600 text-orange-600 hover:bg-orange-50"
-                              onClick={() => openProductModal(product)}
                             >
-                              Details
+                              Buy Now
                             </Button>
-                          ) : (
-                            <Link href={`/product/${product.id}`}>
-                              <Button
-                                variant="outline"
-                                className="px-3 border-orange-600 text-orange-600 hover:bg-orange-50"
-                              >
-                                View
-                              </Button>
-                            </Link>
-                          )}
-                        </div>
+                          </Link>
+                        )}
                       </div>
+                    </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -265,13 +267,17 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
         </Button>
 
         {/* Dots Indicator */}
-        {products.length > itemsPerView && (
+        {showDots && products.length > itemsPerView && (
           <div className="flex justify-center space-x-2 mt-6">
             {Array.from({ length: maxIndex + 1 }).map((_, index) => (
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? "bg-orange-600" : "bg-gray-300"
+                  index === currentIndex
+                    ? "bg-orange-600"
+                    : dark
+                    ? "bg-white/30 hover:bg-white/40"
+                    : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 onClick={() => setCurrentIndex(index)}
               />

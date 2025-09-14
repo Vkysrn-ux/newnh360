@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
         <p><b>Order ID:</b> ${orderData.orderId}</p>
         <p><b>Customer:</b> ${orderData.customerName} (${orderData.customerEmail})</p>
         <p><b>Phone:</b> ${orderData.phone || "N/A"}</p>
+        <p><b>Payment:</b> ${orderData.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Paid (Prepaid)'}</p>
         <p><b>Address:</b> ${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.pincode}</p>
         <p><b>Date:</b> ${orderData.orderDate}</p>
         <p><b>Total:</b> ₹${orderData.totalAmount}</p>
@@ -93,9 +94,10 @@ export async function POST(req: NextRequest) {
           ${orderData.items.map(item => `<li>${item.name} x ${item.quantity} @ ₹${item.price}</li>`).join("")}
         </ul>
         <p><b>Total Paid:</b> ₹${orderData.totalAmount}</p>
+        <p><b>Payment Method:</b> ${orderData.paymentMethod === 'COD' ? 'Cash on Delivery (COD) - Pay on delivery' : 'Paid (Prepaid)'}</p>
         <p><b>Shipping Address:</b> ${orderData.address}, ${orderData.city}, ${orderData.state}, ${orderData.pincode}</p>
         <p>We’ll update you when your order ships.</p>
-        <p>Contact support@britexcbe.com or call +91-9894517926 if needed.</p>
+        <p>Contact support@britexcbe.com if needed.</p>
       `;
 
       await transporter.sendMail({
@@ -129,7 +131,7 @@ export async function POST(req: NextRequest) {
       }
 
       html += `
-        <br/><p>For help, contact support@britexcbe.com or call +91-9894517926.</p>
+        <br/><p>For help, contact support@britexcbe.com.</p>
         <p>— NH360 FASTag</p>
       `;
 

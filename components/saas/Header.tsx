@@ -3,11 +3,15 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { ShoppingCart } from "lucide-react"
+import { useCart } from "@/components/cart-context"
 import TextHoverLogo from "./TextHoverLogo"
 import ResizableNavbar from "./ResizableNavbar"
 
 export default function SaasHeader() {
   const [open, setOpen] = useState(false)
+  const { state, dispatch } = useCart()
+  const itemCount = state.items.reduce((n, it) => n + it.quantity, 0)
   const nav = [
     { href: "/", label: "Home" },
     { href: "/buy", label: "Buy FASTag" },
@@ -36,9 +40,13 @@ export default function SaasHeader() {
         />
 
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/buy" className="text-gray-300 hover:text-white">Sign in</Link>
-          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white">
-            <Link href="/buy">Get Started</Link>
+          <Link href="/admin/dashboard" className="text-gray-300 hover:text-white">Login</Link>
+          <Button
+            className="bg-orange-600 hover:bg-orange-700 text-white inline-flex items-center gap-2"
+            onClick={() => dispatch({ type: "OPEN_CART" })}
+          >
+            <ShoppingCart className="w-4 h-4" />
+            Cart{itemCount > 0 ? ` (${itemCount})` : ""}
           </Button>
         </div>
 
@@ -61,11 +69,23 @@ export default function SaasHeader() {
                 {n.label}
               </Link>
             ))}
-            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white w-full">
-              <Link href="/buy" onClick={() => setOpen(false)}>
-                Get Started
+            <div className="flex items-center gap-3">
+              <Link href="/admin/dashboard" className="text-gray-200" onClick={() => setOpen(false)}>
+                Login
               </Link>
-            </Button>
+              <Button
+                className="bg-orange-600 hover:bg-orange-700 text-white flex-1"
+                onClick={() => {
+                  setOpen(false)
+                  dispatch({ type: "OPEN_CART" })
+                }}
+              >
+                <span className="inline-flex items-center gap-2 justify-center">
+                  <ShoppingCart className="w-4 h-4" />
+                  Cart{itemCount > 0 ? ` (${itemCount})` : ""}
+                </span>
+              </Button>
+            </div>
           </div>
         </div>
       )}
