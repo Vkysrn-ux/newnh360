@@ -1,4 +1,4 @@
-ï»¿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { HeroCarousel } from "@/components/hero-carousel"
 import { Card, CardContent } from "@/components/ui/card"
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { CardSpotlight } from "@/components/ui/card-spotlight"
 import { ProductCarousel } from "@/components/product-carousel"
 import BlogCarousel from "@/components/blog-carousel"
-import { db } from "@/lib/db"
 import {
   Accordion,
   AccordionItem,
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/accordion"
 
 export const metadata: Metadata = {
-  title: "NH360 FASTag | FASTag Sales & Support",
+  title: "NH360 FASTag GÇô Saasland Styled | FASTag Sales & Support",
   description:
     "Buy FASTag, recharge across issuers, update KYC, resolve blacklist and manage fleets with NH360 FASTag.",
 }
@@ -53,7 +52,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { t: "FASTag Issuance", d: "SameÃ¢â‚¬â€˜day activation with KYC help" },
+              { t: "FASTag Issuance", d: "SameGÇæday activation with KYC help" },
               { t: "Recharge Assistance", d: "Support for all issuers" },
               { t: "Fleet Solutions", d: "Bulk issuance & reports" },
             ].map((f, i) => (
@@ -92,7 +91,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-extrabold text-white">Buy FASTag</h2>
-            <p className="text-gray-400">SameÃ¢â‚¬â€˜day activation with doorstep KYC assistance for all vehicle classes.</p>
+            <p className="text-gray-400">SameGÇæday activation with doorstep KYC assistance for all vehicle classes.</p>
             <ul className="space-y-2 text-sm">
               {[
                 "New tag issuance for cars, LCVs, trucks and buses",
@@ -114,7 +113,7 @@ export default function HomePage() {
             <CardContent className="p-6 space-y-3">
               <div className="text-sm text-gray-400">Why NH360 FASTag?</div>
               <div className="grid sm:grid-cols-2 gap-3 text-sm">
-                {["PANÃ¢â‚¬â€˜India assistance", "24Ãƒâ€”7 expert support", "Bulk / fleet issuance", "Dispute help"].map((x) => (
+                {["PANGÇæIndia assistance", "24+ù7 expert support", "Bulk / fleet issuance", "Dispute help"].map((x) => (
                   <div key={x} className="rounded-lg border border-orange-900/60 bg-neutral-950 p-3 text-gray-300">{x}</div>
                 ))}
               </div>
@@ -128,7 +127,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-extrabold text-white">Recharge FASTag</h2>
-            <p className="text-gray-400">Top up any bankÃ¢â‚¬â„¢s FASTag. Get help with failed recharges and reversals.</p>
+            <p className="text-gray-400">Top up any bankGÇÖs FASTag. Get help with failed recharges and reversals.</p>
             <ul className="space-y-2 text-sm">
               {["Recharge across all issuers", "Assistance for payment failures / reversals", "Instant help on disputes"].map((t) => (
                 <li key={t} className="flex items-center gap-2">
@@ -164,7 +163,7 @@ export default function HomePage() {
               { t: "KYC Update", d: "Update KYC or change vehicle/owner details", href: "/buy" },
               { t: "Blacklist Removal", d: "Resolve blacklist due to KYC or low balance", href: "/recharge" },
               { t: "Tag Replacement", d: "Replace damaged or lost FASTag", href: "/buy" },
-              { t: "Dispute Help", d: "Toll doubleÃ¢â‚¬â€˜charge or debit disputes", href: "/recharge" },
+              { t: "Dispute Help", d: "Toll doubleGÇæcharge or debit disputes", href: "/recharge" },
             ].map((c) => (
               <Card key={c.t} className="border-orange-900 bg-neutral-900">
                 <CardContent className="p-6 space-y-3">
@@ -180,14 +179,44 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Products (from API) */}
+      {/* Products */}
       <section id="products" className="py-16 bg-black text-gray-200 border-y border-orange-900">
         <div className="container mx-auto px-4">
-          {/* @ts-expect-error Async Server Component */}
-          <DBProductsCarousel />
+          {(() => {
+            const issuers = ["SBI", "IDFC", "KOTAK", "AIRTEL"] as const
+            const classes = [4, 5, 6, 7, 8, 9, 10, 12]
+            const products = issuers.flatMap((issuer, i) =>
+              classes.map((cls, j) => ({
+                id: 2000 + i * 100 + cls,
+                name: `${issuer} CLASS ${cls}`,
+                price: cls >= 7 ? "Gé¦599" : "Gé¦499",
+                originalPrice: cls >= 7 ? "Gé¦699" : "Gé¦599",
+                image: "/placeholder.jpg",
+                description: `FASTag issuance for Class ${cls} vehicles with KYC and activation support`,
+                rating: 4.7,
+                reviews: 900 + j * 30 + i * 10,
+                category: "fastag",
+                features: [
+                  cls >= 7 ? "Fleet ready" : "SameGÇæday activation",
+                  "PANGÇæIndia",
+                ],
+              }))
+            )
+            return (
+              <ProductCarousel
+                title="FASTag Products"
+                subtitle="SBI, IDFC, KOTAK, AIRTEL GÇö Classes 4GÇô12"
+                disableLinks
+                dark
+                showDots={false}
+                products={products as any}
+              />
+            )
+          })()}
         </div>
       </section>
-{/* Blog teasers */}
+
+      {/* Blog teasers */}
       <section id="blog" className="py-16">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
@@ -213,7 +242,7 @@ export default function HomePage() {
             </AccordionItem>
             <AccordionItem value="q3">
               <AccordionTrigger className="px-4 text-left text-white">Can you help with blacklist or disputes?</AccordionTrigger>
-              <AccordionContent className="px-4 text-gray-300">We help resolve blacklist due to KYC/low balance and assist with toll doubleÃ¢â‚¬â€˜charge or debit disputes.</AccordionContent>
+              <AccordionContent className="px-4 text-gray-300">We help resolve blacklist due to KYC/low balance and assist with toll doubleGÇæcharge or debit disputes.</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -225,7 +254,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold">Ready to get your FASTag?</h2>
-              <p className="text-orange-100">Quick onboarding with 24Ãƒâ€”7 expert support.</p>
+              <p className="text-orange-100">Quick onboarding with 24+ù7 expert support.</p>
             </div>
             <Link href="/buy" className="inline-flex h-12 items-center justify-center rounded-md bg-white px-8 text-orange-700 font-semibold hover:bg-orange-50">Get Started</Link>
           </div>
@@ -234,38 +263,5 @@ export default function HomePage() {
 
     </main>
   )
-}
-
-// Server component that fetches products from API and renders carousel
-async function DBProductsCarousel() {
-  try {
-    const [rows] = await db.query("SELECT * FROM products ORDER BY created_at DESC LIMIT 24")
-    const products = Array.isArray(rows)
-      ? (rows as any[]).map((p: any) => ({
-          id: p.id,
-          name: p.name,
-          price: `â‚¹${p.price ?? 0}`,
-          originalPrice: `â‚¹${p.original_price ?? p.price ?? 0}`,
-          image: p.image_url || "/placeholder.svg",
-          description: p.description || "FASTag issuance with KYC and activation support",
-          rating: Number(p.rating ?? 4.7),
-          reviews: Number(p.reviews ?? 0),
-          category: p.category || "fastag",
-          features: Array.isArray(p.features) ? p.features : ["Same-day activation", "PAN-India"],
-        }))
-      : []
-
-    return (
-      <ProductCarousel
-        title="FASTag Products"
-        subtitle="Live catalogue"
-        dark
-        showDots={false}
-        products={products as any}
-      />
-    )
-  } catch {
-    return null
-  }
 }
 

@@ -2,10 +2,10 @@
 import mysql from "mysql2/promise"
 
 const {
-  MYSQL_HOST = "localhost",
+  MYSQL_HOST = "147.93.155.21",
   MYSQL_PORT = "3306",
   MYSQL_USER = "root",
-  MYSQL_PASSWORD = "Mind%^%^",
+  MYSQL_PASSWORD = "rootpass",
   MYSQL_DATABASE = "ecomnh360web",
   MYSQL_SSL = "false",
 } = process.env as Record<string, string | undefined>

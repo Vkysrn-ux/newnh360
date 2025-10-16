@@ -1,0 +1,8 @@
+<TabsList className="bg-black text-gray-300">
+                  <TabsTrigger value="recharge">Recharge</TabsTrigger>
+                  <TabsTrigger value="orders">Orders</TabsTrigger>
+                  <TabsTrigger value="leads">Leads</TabsTrigger>
+                  <TabsTrigger value="support">Support</TabsTrigger>
+                  <TabsTrigger value="blog">Blog</TabsTrigger>
+                </TabsList>
+

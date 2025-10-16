@@ -8,6 +8,8 @@ export const config = {
   },
 };
 
+export const runtime = "nodejs"
+
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const productId = formData.get('productId') as string;

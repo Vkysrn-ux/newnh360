@@ -1,0 +1,19 @@
+useEffect(() => {
+    const productId = Number.parseInt(params.id)
+    const foundProduct = allProducts.find((p) => p.id === productId)
+    setProduct(foundProduct || null)
+
+    // Get related products from same category
+    if (foundProduct) {
+      const related = allProducts
+        .filter((p) => p.category === foundProduct.category && p.id !== foundProduct.id)
+        .slice(0, 6)
+        .map((p) => ({
+          ...p,
+          price: `₹${p.price.toLocaleString()}`,
+          originalPrice: `₹${p.originalPrice.toLocaleString()}`,
+        }))
+      setRelatedProducts(related)
+    }
+  }, [params.id])
+

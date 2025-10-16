@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ShoppingCart } from "lucide-react"
 import { useCart } from "@/components/cart-context"
 import TextHoverLogo from "./TextHoverLogo"
@@ -10,14 +10,30 @@ import ResizableNavbar from "./ResizableNavbar"
 
 export default function SaasHeader() {
   const [open, setOpen] = useState(false)
+  const [auth, setAuth] = useState<{ user: any; role: string } | null>(null)
   const { state, dispatch } = useCart()
   const itemCount = state.items.reduce((n, it) => n + it.quantity, 0)
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/auth/me", { credentials: "include", cache: "no-store" })
+      .then(async (r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (!active || !j?.authenticated) return
+        setAuth({ user: j.user, role: j.user?.role })
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [])
+
   const nav = [
     { href: "/", label: "Home" },
-    { href: "/buy", label: "Buy FASTag" },
-    { href: "/recharge", label: "Recharge FASTag" },
-    { href: "/support", label: "Get Support" },
-    { href: "/blog", label: "Blog" },
+    { href: "/#buy", label: "Buy FASTag" },
+    { href: "/#recharge", label: "Recharge FASTag" },
+    { href: "/#services", label: "Get Support" },
+    { href: "/#blog", label: "Blog" },
     { href: "/contact", label: "Contact Us" },
   ]
 
@@ -28,19 +44,28 @@ export default function SaasHeader() {
           <TextHoverLogo />
         </Link>
 
-        <ResizableNavbar
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Buy FASTag", href: "/#buy" },
-            { label: "Recharge FASTag", href: "/#recharge" },
-            { label: "Get Support", href: "/#services" },
-            { label: "Blog", href: "/#blog" },
-            { label: "Contact Us", href: "/contact" },
-          ]}
-        />
+        <ResizableNavbar items={nav} />
 
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/admin/dashboard" className="text-gray-300 hover:text-white">Login</Link>
+          {!auth ? (
+            <Link href="/login" className="text-gray-300 hover:text-white">Login</Link>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link href="/account" className="text-gray-300 hover:text-white">{auth.user?.name || auth.user?.email}</Link>
+              {auth.role === "admin" && (
+                <Link href="/admin" className="text-gray-300 hover:text-white">Admin</Link>
+              )}
+              <button
+                className="text-gray-400 hover:text-white"
+                onClick={async () => {
+                  await fetch("/api/auth/logout", { method: "POST" })
+                  window.location.href = "/"
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
           <Button
             className="bg-orange-600 hover:bg-orange-700 text-white inline-flex items-center gap-2"
             onClick={() => dispatch({ type: "OPEN_CART" })}
@@ -70,9 +95,32 @@ export default function SaasHeader() {
               </Link>
             ))}
             <div className="flex items-center gap-3">
-              <Link href="/admin/dashboard" className="text-gray-200" onClick={() => setOpen(false)}>
-                Login
-              </Link>
+              {!auth ? (
+                <Link href="/login" className="text-gray-200" onClick={() => setOpen(false)}>
+                  Login
+                </Link>
+              ) : (
+                <>
+                  <Link href="/account" className="text-gray-200" onClick={() => setOpen(false)}>
+                    Account
+                  </Link>
+                  {auth.role === "admin" && (
+                    <Link href="/admin" className="text-gray-200" onClick={() => setOpen(false)}>
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    className="text-gray-400"
+                    onClick={async () => {
+                      await fetch("/api/auth/logout", { method: "POST" })
+                      setOpen(false)
+                      window.location.href = "/"
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
               <Button
                 className="bg-orange-600 hover:bg-orange-700 text-white flex-1"
                 onClick={() => {

@@ -4,11 +4,18 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { CartProvider } from "@/components/cart-context"
 import SiteChrome from "@/components/site-chrome"
+import Analytics from "@/components/analytics"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "NH360fastag.com - FASTag Sales & Services Across India",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://nh360fastag.com"
+  ),
+  title: {
+    default: "NH360 FASTag | FASTag Sales & Support Across India",
+    template: "%s | NH360 FASTag",
+  },
   description:
     "NH360fastag.com offers FASTag sales, recharge, and support services across India. Get your FASTag quickly, enjoy seamless toll payments, and access expert customer support for all your FASTag needs.",
   keywords:
@@ -16,7 +23,20 @@ export const metadata: Metadata = {
   authors: [{ name: "NH360fastag.com Team" }],
   creator: "NH360fastag.com",
   publisher: "NH360fastag.com",
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "NH360fastag.com - FASTag Sales & Services",
     description:
@@ -37,12 +57,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NH360fastag.com - FASTag Sales & Services",
-    description: "Buy FASTag, recharge, and get support across India with NH360fastag.com.",
+    description:
+      "Buy FASTag, recharge, and get support across India with NH360fastag.com.",
     images: ["/images/fastag-banner.jpg"],
   },
   viewport: "width=device-width, initial-scale=1",
   themeColor: "#FF7A00",
-  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -57,11 +77,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="stylesheet" href="/saasland/index.css" />
         <meta name="theme-color" content="#FF7A00" />
+        {process.env.NEXT_PUBLIC_SITE_URL ? (
+          <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
+        ) : null}
       </head>
       <body className={inter.className}>
         <CartProvider>
           <SiteChrome>{children}</SiteChrome>
         </CartProvider>
+        {/* Google Analytics */}
+        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       </body>
     </html>
   )

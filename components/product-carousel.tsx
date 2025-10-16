@@ -98,6 +98,34 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
     dispatch({ type: "OPEN_CART" })
   }
 
+  // Normalize common external URLs (especially Google Drive share links)
+  const normalizeImageUrl = (url?: string) => {
+    if (!url) return "/placeholder.svg"
+    try {
+      const cleaned = url.trim()
+      const u = new URL(cleaned)
+      const host = u.host
+      const path = u.pathname
+      // Formats we convert:
+      // - https://drive.google.com/file/d/FILE_ID/view?usp=sharing -> uc?export=view&id=FILE_ID
+      // - https://drive.google.com/open?id=FILE_ID -> uc?export=view&id=FILE_ID
+      if (host.includes("drive.google.com")) {
+        let id = ""
+        const m = path.match(/\/file\/d\/([^/]+)/)
+        if (m && m[1]) id = m[1]
+        if (!id) id = u.searchParams.get("id") || ""
+        if (id) {
+          // Prefer googleusercontent (more reliable as an image origin)
+          return `https://lh3.googleusercontent.com/d/${id}=s1200`
+        }
+      }
+      // lh3.googleusercontent direct link is fine; keep as-is
+      return url
+    } catch {
+      return url
+    }
+  }
+
   const openProductModal = (product: Product) => {
     const productWithDetails = {
       ...product,
@@ -139,11 +167,13 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
                         onClick={() => openProductModal(product)}
                       >
                         <Image
-                          src={product.image || "/placeholder.svg"}
+                          src={normalizeImageUrl(product.image)}
                           alt={product.name}
                           width={400}
                           height={300}
                           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                          referrerPolicy="no-referrer"
                         />
                         <Badge className="absolute top-4 left-4 bg-orange-600 text-white">Popular</Badge>
                       </div>
@@ -151,11 +181,13 @@ export function ProductCarousel({ products, title, subtitle, disableLinks = fals
                       <Link href={`/product/${product.id}`}>
                         <div className="relative overflow-hidden rounded-t-lg cursor-pointer">
                           <Image
-                            src={product.image || "/placeholder.svg"}
+                            src={normalizeImageUrl(product.image)}
                             alt={product.name}
                             width={400}
                             height={300}
                             className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                            unoptimized
+                            referrerPolicy="no-referrer"
                           />
                           <Badge className="absolute top-4 left-4 bg-orange-600 text-white">Bestseller</Badge>
                         </div>
